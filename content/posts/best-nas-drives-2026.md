@@ -69,7 +69,7 @@ If you're building a NAS that you intend to grow into, starting with fewer, larg
 - Cache: 256 MB
 - Workload: 180 TB/year
 - Warranty: 3 years
-- Price: ~$150
+- Price: ~$170
 
 [Seagate IronWolf 8TB on Amazon](https://www.amazon.com/dp/B07H241VNP?tag=YOURTAG-20)
 

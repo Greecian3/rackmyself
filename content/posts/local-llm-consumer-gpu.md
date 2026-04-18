@@ -28,25 +28,25 @@ These are approximations — actual usage includes KV cache overhead and overhea
 
 ## Consumer GPU Recommendations
 
-### RTX 3060 12GB (~$280 used)
+### RTX 3060 12GB (~$250–300 used)
 
 The best value entry point for local LLM work. 12 GB of GDDR6 comfortably fits 7B models at 8-bit quantization, or 13B models at 4-bit. Fast enough for real-time chat, cheap enough to be a starter GPU.
 
-Fits: 7B (q8), 13B (q4), Phi-3 medium
+Fits: Qwen3 8B (q8), Llama 4 Scout (q4), 13B models (q4)
 
 [NVIDIA RTX 3060 12GB on Amazon](https://www.amazon.com/s?k=RTX+3060+12GB&tag=YOURTAG-20)
 
-### RTX 3090 24GB (~$650 used)
+### RTX 3090 24GB (~$800–1,000 used)
 
-The sweet spot for serious local AI work. 24 GB fits 34B models at 4-bit, or 13B models comfortably at full precision. This is the workhorse recommendation — you can run genuinely capable models without compromise.
+Still the value king for local AI in 2026 despite GPU prices rising across the board. 24 GB fits DeepSeek R1 32B at 4-bit comfortably, or Llama 4 Scout at higher precision. XDA Developers called it "the best GPU for local AI value" even after the RTX 50 series launch.
 
-Fits: 7B (full precision), 13B (q8), 34B (q4), 33B Code models
+Fits: 7B (full precision), 13B (q8), 32–34B (q4)
 
 [NVIDIA RTX 3090 24GB on Amazon](https://www.amazon.com/s?k=RTX+3090+24GB&tag=YOURTAG-20)
 
-### RTX 4090 24GB (~$1,600 new, ~$1,300 used)
+### RTX 4090 24GB (~$2,000+ used)
 
-Same VRAM as the 3090, but with dramatically faster memory bandwidth (1008 GB/s vs 936 GB/s) and better compute. The real-world difference in inference speed is 40–60% faster than a 3090 at the same model size. If you're doing this seriously or building around AI, the 4090 is worth the premium.
+Same VRAM as the 3090, but 40–60% faster inference due to better memory bandwidth and compute. Prices have risen significantly in 2026 due to AI demand. Unless you need the speed, the 3090 is better value.
 
 Fits: Same as 3090, but faster
 
@@ -54,15 +54,17 @@ Fits: Same as 3090, but faster
 
 ### RTX 4060 Ti 16GB (~$450 new)
 
-Underrated for AI workloads. The 16 GB version gives you enough VRAM for 13B at q8 or 34B at q4 in a power-efficient 165W package. For a mini PC or ITX build where power matters, this is a strong pick.
+Underrated for AI workloads. The 16 GB version gives you enough VRAM for 13B at q8 or 32B models at q4 in a power-efficient 165W package. For a mini PC or ITX build where power matters, this is a strong pick.
 
 [NVIDIA RTX 4060 Ti 16GB on Amazon](https://www.amazon.com/s?k=RTX+4060+Ti+16GB&tag=YOURTAG-20)
 
-### Dual GPU: 2x RTX 3090 (~$1,200-1,400 used)
+### What About RTX 5080/5090?
 
-If you have a proper desktop with two PCIe slots and a beefy PSU, two 3090s give you 48 GB of combined VRAM (via NVLink or tensor parallel inference with tools like llama.cpp). This opens up 70B models at 4-bit quantization — which hits close to GPT-4 quality on many benchmarks.
+The RTX 5080 (16 GB GDDR7) and 5090 (32 GB GDDR7) are out, but prices are brutal in early 2026 — the 5080 sells for $1,400–1,950, the 5090 for $3,000–5,000 due to memory shortages. For local AI hobbyists, neither is worth the premium right now. Revisit in late 2026 when prices normalize.
 
-This requires planning: a beefy ATX case, a 1200W+ PSU, good cooling, and motherboard with two full x16 or x8 PCIe slots.
+### Dual GPU: 2x RTX 3090 (~$1,600–2,000 used)
+
+Two 3090s give you 48 GB of combined VRAM via tensor parallel inference with llama.cpp. This opens up 70B models at 4-bit quantization. Requires a beefy ATX case, 1200W+ PSU, and a motherboard with two full PCIe slots.
 
 ## Installing the Stack
 
@@ -120,27 +122,26 @@ Watch the tokens/sec in the output. On an RTX 3090, expect 50–80 tokens/sec fo
 
 Best models in this VRAM range:
 
-- **Llama 3.2 3B** (`ollama pull llama3.2:3b`) — fast, efficient, great for quick tasks
-- **Mistral 7B Instruct** (`ollama pull mistral:7b`) — excellent instruction following, quick inference
-- **Phi-3 Medium 14B** (`ollama pull phi3:medium`) — Microsoft's efficient model, punches above its parameter count
-- **Qwen2.5 Coder 7B** (`ollama pull qwen2.5-coder:7b`) — best coding model in this size range
+- **Qwen3 4B** (`ollama pull qwen3:4b`) — fast, efficient, great for quick tasks and surprisingly capable
+- **Llama 4 Scout 17B Q4** (`ollama pull llama4:scout`) — the 2026 standout; fits in 12 GB at 4-bit, excellent general-purpose quality
+- **Qwen3-Coder** (`ollama pull qwen3-coder`) — best coding model available, MoE architecture runs fast despite 80B total params
+- **Qwen3 8B** (`ollama pull qwen3:8b`) — strong all-rounder, 5 GB VRAM at Q4
 
 ### 16–20 GB VRAM (RTX 4060 Ti 16GB, RTX 4080)
 
 Additional models that fit:
 
-- **Llama 3.1 13B** — strong general-purpose model
-- **DeepSeek Coder V2 16B** — excellent for code generation
-- **Gemma 2 12B** — Google's efficient open model, very capable
+- **Llama 4 Scout** at higher precision — more quality headroom
+- **DeepSeek R1 14B** — reasoning-focused, shows chain-of-thought, excellent for technical problems
+- **Qwen3 14B** — Google-competitive on many benchmarks, fast inference
 
 ### 24 GB VRAM (RTX 3090, RTX 4090)
 
 The full range opens up:
 
-- **Llama 3.1 70B Q4** — partially on GPU (needs system RAM for overflow) — *technically* works but GPU layers will be split
-- **Llama 3.3 70B Q4** — same situation, 70B at 4-bit needs ~44 GB total
-- **Llama 3.1 34B** (`ollama pull llama3.1:34b`) — fits comfortably, GPT-4 class on many tasks
-- **DeepSeek R1 32B** — strong reasoning model, fits in 24 GB
+- **DeepSeek R1 32B** (`ollama pull deepseek-r1:32b`) — fits comfortably, near GPT-4o quality on reasoning tasks
+- **Llama 4 Maverick** (partial GPU) — 400B MoE, most layers need CPU offload at 24 GB
+- **Qwen3 32B** — strong general-purpose model, fits cleanly in 24 GB at Q4
 
 To run 70B models fully in VRAM, you need either 48 GB (two 3090s) or 80+ GB (professional hardware like A100).
 

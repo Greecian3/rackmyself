@@ -47,6 +47,8 @@ sudo dpkg -i cloudflared.deb
 cloudflared --version
 ```
 
+The latest release as of April 2026 is 2026.3.0. The `latest` URL above always pulls the current version automatically.
+
 **On ARM (e.g., Raspberry Pi):**
 ```bash
 curl -L --output cloudflared.deb \

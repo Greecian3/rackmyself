@@ -1,7 +1,7 @@
 ---
 title: "How to Run Ollama on a Home Server (Local AI Without the Cloud)"
 date: 2026-04-18
-description: "Run powerful AI models like Llama 3, Mistral, and Phi locally on your home server with Ollama. No subscriptions, no data leaks, no cloud dependency."
+description: "Run powerful AI models like Llama 4, Qwen3, and DeepSeek R1 locally on your home server with Ollama. No subscriptions, no data leaks, no cloud dependency."
 tags: ["ollama", "local ai", "home server", "llm", "self-hosting"]
 categories: ["guides"]
 showToc: true
@@ -58,22 +58,22 @@ You should see the service active and running.
 
 ## Pulling Your First Model
 
-Ollama uses a Docker-like pull system. Models come from the Ollama model library. Let's start with Llama 3.2 3B — small enough to run on almost anything:
+Ollama uses a Docker-like pull system. Models come from the Ollama model library. Let's start with Qwen3 4B — small, fast, and surprisingly capable on almost any hardware:
 
 ```bash
-ollama pull llama3.2:3b
+ollama pull qwen3:4b
 ```
 
-For a more capable model that still runs comfortably on 8 GB VRAM or 16 GB RAM:
+For a more capable model that runs comfortably on 8 GB VRAM or 16 GB RAM:
 
 ```bash
-ollama pull llama3.1:8b
+ollama pull llama4:scout
 ```
 
 For serious work with 16+ GB VRAM:
 
 ```bash
-ollama pull llama3.1:70b
+ollama pull deepseek-r1:32b
 ```
 
 Check what you've pulled:
@@ -87,7 +87,7 @@ ollama list
 Once pulled, running is instant:
 
 ```bash
-ollama run llama3.2:3b
+ollama run qwen3:4b
 ```
 
 You'll drop into an interactive chat prompt. Type your message, hit enter, get a response. `Ctrl+D` or `/bye` to exit.
@@ -95,7 +95,7 @@ You'll drop into an interactive chat prompt. Type your message, hit enter, get a
 You can also run one-off prompts directly from the shell:
 
 ```bash
-echo "Summarize Docker in two sentences" | ollama run llama3.2:3b
+echo "Summarize Docker in two sentences" | ollama run qwen3:4b
 ```
 
 This is useful for scripting — piping file contents, log analysis, whatever you need.
@@ -167,13 +167,13 @@ Visit `http://localhost:3000` and you'll have a full web chat interface backed b
 
 ## Model Recommendations by Use Case
 
-**For coding assistance:** `codellama:13b` or `qwen2.5-coder:7b` — both are fine-tuned for code and run comfortably on consumer hardware.
+**For coding assistance:** `qwen3-coder` — a mixture-of-experts model with only 3B active parameters out of 80B total, meaning it runs fast while punching well above its weight on code tasks.
 
-**For general chat/writing:** `llama3.1:8b` is the sweet spot — fast, capable, and well-rounded.
+**For general chat/writing:** `llama4:scout` (17B) is the 2026 sweet spot — fast on 12 GB VRAM, capable, and well-rounded across most tasks.
 
-**For summarization and Q&A:** `mistral:7b` is fast and accurate, particularly good at following instructions precisely.
+**For reasoning and complex problems:** `deepseek-r1:32b` — shows its chain-of-thought reasoning, excellent for multi-step problems, math, and technical analysis.
 
-**For low-resource setups:** `phi3:mini` (3.8B) runs on 4 GB RAM and is surprisingly capable for its size.
+**For low-resource setups:** `qwen3:4b` runs on 4 GB RAM and is surprisingly capable for its size — a major improvement over older small models.
 
 ## Managing Disk Space
 
@@ -207,12 +207,12 @@ Or check the [Ollama GitHub releases](https://github.com/ollama/ollama/releases)
 
 ```bash
 nvidia-smi
-ollama run llama3.2:3b --verbose
+ollama run qwen3:4b --verbose
 ```
 
 The verbose flag will show which device is being used.
 
-**Out of memory:** Switch to a smaller quantization. Instead of `llama3.1:8b`, try `llama3.1:8b-instruct-q4_0`. The `q4_0` suffix means 4-bit quantization — roughly half the memory footprint with modest quality reduction.
+**Out of memory:** Switch to a smaller quantization. Instead of `llama4:scout`, try `llama4:scout-q4_0`. The `q4_0` suffix means 4-bit quantization — roughly half the memory footprint with modest quality reduction.
 
 **Service not starting:** Check the systemd logs:
 
@@ -224,4 +224,4 @@ journalctl -u ollama -f
 
 Once Ollama is running, the natural next step is adding a proper front end. Open WebUI turns it into something you'd actually want to use daily. After that, consider using a Cloudflare Tunnel to access your AI from anywhere — without exposing ports directly to the internet.
 
-Running local AI isn't just a hobby project anymore. With models like Llama 3.1 hitting close to GPT-4 quality on many benchmarks, it's a genuinely practical setup for anyone who values privacy, wants to cut costs, or just enjoys having real control over their tools.
+Running local AI isn't just a hobby project anymore. In 2026, models like Llama 4 Scout and DeepSeek R1 score within 5–10% of GPT-4o on standard benchmarks — and they run on hardware you already own. It's a genuinely practical setup for anyone who values privacy, wants to cut costs, or just enjoys having real control over their tools.

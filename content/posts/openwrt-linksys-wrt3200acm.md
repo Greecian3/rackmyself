@@ -65,7 +65,7 @@ That said — if you have a WRT3200ACM already, it's a great OpenWrt platform. L
 
 Go to the [OpenWrt firmware selector](https://firmware-selector.openwrt.org/) and search for "Linksys WRT3200ACM". Download the **Factory** image (for installing over stock firmware) or the **Sysupgrade** image (for upgrading an existing OpenWrt install).
 
-As of early 2026, OpenWrt 23.05 is the stable release.
+As of April 2026, OpenWrt 25.12.2 is the current stable release.
 
 ### Step 2: Log Into the Stock Firmware
 
@@ -119,16 +119,26 @@ For the 5 GHz radio, try different 80 MHz channels if you experience instability
 
 ## Useful OpenWrt Packages for a Homelab
 
-The real payoff of OpenWrt is what you can install. Some highlights:
+The real payoff of OpenWrt is what you can install. Some highlights.
+
+**Important note for OpenWrt 25.12+:** The package manager switched from `opkg` to `apk` in the 25.12 release. If you're on 25.12.x, replace `opkg install` with `apk add` in the commands below. If you're on an older 23.05 installation, use `opkg` as before.
 
 **AdGuard Home or AdBlock:**
 ```bash
+# OpenWrt 25.12+
+apk add adblock luci-app-adblock
+
+# OpenWrt 23.05 and older
 opkg install adblock luci-app-adblock
 ```
 Network-wide ad blocking without touching individual devices.
 
 **WireGuard VPN:**
 ```bash
+# OpenWrt 25.12+
+apk add wireguard-tools kmod-wireguard luci-proto-wireguard
+
+# OpenWrt 23.05 and older
 opkg install wireguard-tools kmod-wireguard luci-proto-wireguard
 ```
 A proper road-warrior VPN so you can tunnel back into your network from anywhere.
@@ -138,7 +148,8 @@ Per-device bandwidth tracking. Useful for finding the device that's eating your 
 
 **sqm-scripts (Smart Queue Management):**
 ```bash
-opkg install sqm-scripts luci-app-sqm
+# OpenWrt 25.12+
+apk add sqm-scripts luci-app-sqm
 ```
 Dramatically reduces latency under load (bufferbloat). Makes a real-world difference for gaming, video calls, or anything interactive while someone else is downloading.
 
