@@ -1,0 +1,9 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rackmyself",
+  "compatibility_date": "2026-04-18",
+  "assets": {
+    "directory": "public",
+    "binding": "ASSETS"
+  }
+}
