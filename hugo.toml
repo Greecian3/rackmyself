@@ -1,0 +1,16 @@
+baseURL = "https://rackmyself.com"
+languageCode = "en-us"
+title = "Rack Myself"
+theme = "PaperMod"
+
+[params]
+  description = "Practical homelab and self-hosting guides for real people"
+  ShowReadingTime = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+
+[menu]
+  [[menu.main]]
+    name = "Guides"
+    url = "/posts/"
+    weight = 1

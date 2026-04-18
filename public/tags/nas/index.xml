@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Nas on Rack Myself</title>
+    <link>https://rackmyself.com/tags/nas/</link>
+    <description>Recent content in Nas on Rack Myself</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 18 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://rackmyself.com/tags/nas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Best NAS Drives for a Home Server in 2026</title>
+      <link>https://rackmyself.com/posts/best-nas-drives-2026/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/posts/best-nas-drives-2026/</guid>
+      <description>The best NAS hard drives for a home server or DIY NAS build in 2026. We compare WD Red, Seagate IronWolf, and CMR vs SMR — what actually matters.</description>
+    </item>
+  </channel>
+</rss>

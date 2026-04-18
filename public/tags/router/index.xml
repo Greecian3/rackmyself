@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Router on Rack Myself</title>
+    <link>https://rackmyself.com/tags/router/</link>
+    <description>Recent content in Router on Rack Myself</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 18 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://rackmyself.com/tags/router/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OpenWrt on the Linksys WRT3200ACM: Is It Worth It?</title>
+      <link>https://rackmyself.com/posts/openwrt-linksys-wrt3200acm/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/posts/openwrt-linksys-wrt3200acm/</guid>
+      <description>A real-world look at installing OpenWrt on the Linksys WRT3200ACM router. Performance, features, and whether it&amp;#39;s still worth buying in 2026.</description>
+    </item>
+  </channel>
+</rss>

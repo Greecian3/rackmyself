@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Self-Hosting on Rack Myself</title>
+    <link>https://rackmyself.com/tags/self-hosting/</link>
+    <description>Recent content in Self-Hosting on Rack Myself</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 18 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://rackmyself.com/tags/self-hosting/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker Compose for Beginners: Run Any App in Minutes</title>
+      <link>https://rackmyself.com/posts/docker-compose-beginners/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/posts/docker-compose-beginners/</guid>
+      <description>Learn Docker Compose from scratch. This beginner guide explains containers, docker-compose.yml, and how to run real self-hosted apps on your home server.</description>
+    </item>
+    <item>
+      <title>How to Run Ollama on a Home Server (Local AI Without the Cloud)</title>
+      <link>https://rackmyself.com/posts/run-ollama-home-server/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/posts/run-ollama-home-server/</guid>
+      <description>Run powerful AI models like Llama 3, Mistral, and Phi locally on your home server with Ollama. No subscriptions, no data leaks, no cloud dependency.</description>
+    </item>
+    <item>
+      <title>How to Self-Host Open WebUI and Access It From Anywhere</title>
+      <link>https://rackmyself.com/posts/self-host-open-webui/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/posts/self-host-open-webui/</guid>
+      <description>Set up Open WebUI on your home server with Docker, connect it to Ollama, and expose it securely via Cloudflare Tunnels for access anywhere.</description>
+    </item>
+    <item>
+      <title>How to Set Up a Reverse Proxy With Cloudflare Tunnels (No Port Forwarding)</title>
+      <link>https://rackmyself.com/posts/cloudflare-tunnels-reverse-proxy/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/posts/cloudflare-tunnels-reverse-proxy/</guid>
+      <description>Expose your self-hosted apps to the internet securely using Cloudflare Tunnels. No port forwarding, no exposed home IP, free SSL included.</description>
+    </item>
+    <item>
+      <title>Self-Hosting vs. The Cloud: When It Actually Makes Sense</title>
+      <link>https://rackmyself.com/posts/self-hosting-vs-cloud/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/posts/self-hosting-vs-cloud/</guid>
+      <description>An honest comparison of self-hosting vs cloud services. When self-hosting saves money and gives you control, and when it&amp;#39;s just more work for the same result.</description>
+    </item>
+    <item>
+      <title>The Beginner Homelab: What to Buy First and Why</title>
+      <link>https://rackmyself.com/posts/beginner-homelab-what-to-buy/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/posts/beginner-homelab-what-to-buy/</guid>
+      <description>Your first homelab doesn&amp;#39;t need to be expensive or complicated. Here&amp;#39;s exactly what to buy first, what to skip, and how to start running real services today.</description>
+    </item>
+  </channel>
+</rss>

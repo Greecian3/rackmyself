@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>The Beginner Homelab: What to Buy First and Why | Rack Myself</title>
+<meta name="keywords" content="homelab, beginners, hardware, getting started, self-hosting">
+<meta name="description" content="Your first homelab doesn&#39;t need to be expensive or complicated. Here&#39;s exactly what to buy first, what to skip, and how to start running real services today.">
+<meta name="author" content="">
+<link rel="canonical" href="https://rackmyself.com/posts/beginner-homelab-what-to-buy/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b72e7725c68fccaac08b7b94b4bf3724ac8531837c6717dbd3e55b5a23b0117.css" integrity="sha256-S3Lnclxo/MqsCLe5S0vzckrIUxg3xnF9vT5VtaI7ARc=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://rackmyself.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://rackmyself.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://rackmyself.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://rackmyself.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://rackmyself.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://rackmyself.com/posts/beginner-homelab-what-to-buy/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://rackmyself.com/posts/beginner-homelab-what-to-buy/">
+  <meta property="og:site_name" content="Rack Myself">
+  <meta property="og:title" content="The Beginner Homelab: What to Buy First and Why">
+  <meta property="og:description" content="Your first homelab doesn&#39;t need to be expensive or complicated. Here&#39;s exactly what to buy first, what to skip, and how to start running real services today.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-18T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-04-18T00:00:00+00:00">
+    <meta property="article:tag" content="Homelab">
+    <meta property="article:tag" content="Beginners">
+    <meta property="article:tag" content="Hardware">
+    <meta property="article:tag" content="Getting Started">
+    <meta property="article:tag" content="Self-Hosting">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The Beginner Homelab: What to Buy First and Why">
+  <meta name="twitter:description" content="Your first homelab doesn&#39;t need to be expensive or complicated. Here&#39;s exactly what to buy first, what to skip, and how to start running real services today.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://rackmyself.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "The Beginner Homelab: What to Buy First and Why",
+      "item": "https://rackmyself.com/posts/beginner-homelab-what-to-buy/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "The Beginner Homelab: What to Buy First and Why",
+  "name": "The Beginner Homelab: What to Buy First and Why",
+  "description": "Your first homelab doesn't need to be expensive or complicated. Here's exactly what to buy first, what to skip, and how to start running real services today.",
+  "keywords": [
+    "homelab", "beginners", "hardware", "getting started", "self-hosting"
+  ],
+  "articleBody": "The homelab rabbit hole is deep. Look up any hardware recommendation and you’ll be inundated with rack servers, 10GbE switches, UPS systems, and opinions from people running eight-drive ZFS arrays for fun. None of that is where you should start.\nThis guide is the opposite of that. It covers the minimum viable homelab — the stuff that actually matters for a beginner, what to buy first, and how to avoid the common trap of spending a lot of money before you know what you actually need.\nStart With a Question, Not Hardware Before buying anything, decide what you want your homelab to actually do. The hardware requirements vary dramatically depending on the answer.\nCommon starting goals:\nRun Pi-hole or AdGuard Home (network-wide ad blocking) Self-host a password manager (Vaultwarden) Run Jellyfin for a media server Learn Docker and Linux Run Home Assistant for smart home Host local AI models Some of these run fine on a $40 Raspberry Pi. Others need a real server. Knowing your goal saves you from either overbuying or hitting a wall immediately.\nThe Starter Path: Mini PC First For most beginners, the right first purchase is a mini PC. Not a Raspberry Pi (too weak for Docker-heavy setups), not a used rack server (loud, hot, expensive to run), not a NAS (limited flexibility).\nA mini PC gives you:\nLow power draw (6–15W idle) Silent operation A real x86 CPU that runs everything Docker supports Enough RAM to run 10+ containers Small enough to stick behind your TV or on a shelf The Specific Recommendation Beelink EQ12 with Intel N100 — roughly $150–170 for the 16 GB / 500 GB model.\nWhy this one:\nIntel N100: 4 cores, efficient, runs everything you need for a starter homelab 16 GB RAM: enough for 15–20 containers, Home Assistant, and more 2.5 GbE: future-proofs your network connection 6W idle power: costs ~$8/year in electricity Silent Ships with Ubuntu-compatible hardware (everything works) This is the correct first server for 90% of beginners. Buy this, not the $300 option, not a Raspberry Pi, not a used enterprise server.\nIf you have $50 more to spend, the Beelink EQR6 with AMD Ryzen 5 6600H is a meaningful step up — six real cores instead of four efficiency cores, handles more VMs and heavier workloads.\nOperating System: Ubuntu Server Install Ubuntu Server 24.04 LTS. Not Ubuntu Desktop, not Proxmox (yet), not anything else.\nUbuntu Server reasons:\nMassive community, excellent documentation Docker support is first-class Snap packages for some things, apt for everything else LTS release means 5 years of security updates 95% of self-hosting guides assume Ubuntu/Debian Proxmox (a hypervisor for running virtual machines) is great but adds complexity. Start with Ubuntu directly — you can migrate to Proxmox later if you need VMs.\nInstalling Ubuntu:\nDownload Ubuntu Server 24.04 LTS from ubuntu.com Flash to a USB drive with Balena Etcher (free download) Boot the mini PC from USB Follow the installer — select default storage, add your username and password, enable SSH when prompted Remove USB when done, let it boot Once it’s up, SSH in from your main computer:\nssh username@your-server-ip What to Install First 1. Docker (Required) curl -fsSL https://get.docker.com | sh sudo usermod -aG docker $USER newgrp docker This is your foundation. Docker lets you run almost any self-hosted app in minutes, isolated from your system.\n2. Your First App: Portainer (Optional but Recommended) Portainer is a web UI for managing Docker containers. Good for beginners who want a visual interface.\ndocker run -d \\ -p 9000:9000 \\ --name portainer \\ --restart always \\ -v /var/run/docker.sock:/var/run/docker.sock \\ -v portainer_data:/data \\ portainer/portainer-ce:latest Visit http://your-server-ip:9000 to set it up.\n3. Pi-hole or AdGuard Home (Network Ad Blocking) This is the highest-impact low-effort self-hosted service. Set up Pi-hole as your DNS server and every device on your network blocks ads — no browser extensions, no per-device configuration.\nAdGuard Home Docker Compose:\nservices: adguardhome: image: adguard/adguardhome container_name: adguardhome ports: - \"53:53/tcp\" - \"53:53/udp\" - \"3000:3000/tcp\" volumes: - ./work:/opt/adguardhome/work - ./conf:/opt/adguardhome/conf restart: unless-stopped After setup, point your router’s DNS settings to your server’s IP. All devices on the network use your server for DNS, which filters ads at the network level.\n4. Vaultwarden (Password Manager) A self-hosted Bitwarden-compatible server. Install once, never pay for a password manager again.\nservices: vaultwarden: image: vaultwarden/server:latest container_name: vaultwarden ports: - \"8080:80\" volumes: - ./data:/data environment: - SIGNUPS_ALLOWED=true restart: unless-stopped After first setup, set SIGNUPS_ALLOWED=false to prevent anyone else from creating accounts.\nStorage: Add a Drive Later The EQ12 comes with 500 GB NVMe. That’s enough to start. Once you know you’re staying with this hobby and have more data to store, add storage:\nFor bulk storage: A 2 TB 2.5\" SATA SSD (~$80) fits in the EQ12’s second bay — plug and play For media: A USB 3.0 external drive works fine for Jellyfin For serious storage: A separate NAS is a later purchase Don’t buy a 4-bay NAS as your first homelab purchase. You don’t know yet how much storage you actually need.\nNetworking: What You Actually Need You don’t need a managed switch. The switch your router came with handles a beginner homelab fine.\nYou don’t need VLANs yet. VLAN segmentation is a real security improvement but adds complexity. Learn the basics first.\nYou do need a wired connection for your server. WiFi introduces latency and reliability issues. Run a cable from your router to your server. If the server is in another room, a flat Cat6 cable runs under doors and along baseboards invisibly.\nYou should get a UPS. Power blips corrupt drives and databases. An inexpensive UPS protects your investment.\nAPC BE600M1 UPS — $55, protects against most common power events, gives your server 5–10 minutes of runtime to shut down cleanly.\nWhat Not to Buy First A rack: Racks are for people with multiple 1U/2U servers. A single mini PC doesn’t need a rack.\nA managed switch: You don’t need VLANs yet. A simple unmanaged gigabit switch is fine.\nA dedicated NAS: Your mini PC can serve files. Add a NAS when you have data that justifies it.\nEnterprise hardware (Dell R720, HP DL380, etc.): These are loud (70–80 dB), power-hungry (200–500W), and large. They’re great at what they do but wrong for a home.\nMore hardware than you can learn: Buying everything at once means you’re overwhelmed before you start. Add pieces as you have a specific reason.\nThe 30-Day Plan Week 1: Get the mini PC, install Ubuntu Server, SSH in, install Docker. Deploy Portainer. Get comfortable in the terminal.\nWeek 2: Deploy AdGuard Home, set your router to use it for DNS. Deploy Vaultwarden, migrate your passwords. Run both for a week without touching anything else.\nWeek 3: Deploy Jellyfin or Navidrome (music server). Move some media to your server. Learn how Docker volumes work.\nWeek 4: Set up Cloudflare Tunnels to access one service remotely. Understand what a reverse proxy does conceptually.\nBy day 30, you have a working homelab running real services you use daily, and you understand the fundamentals well enough to make intelligent decisions about what to add next.\nTotal First Homelab Budget Item Approx Cost Beelink EQ12 Mini PC (16GB/500GB) $165 Flat Cat6 Ethernet cable $12 APC UPS BE600M1 $55 Domain name (optional) $12/yr Total: ~$232 plus a free afternoon.\nThat’s it. No NAS, no rack, no managed switch, no enterprise hardware. Just a capable little server that runs quiet in the corner and runs dozens of services on $8/year of electricity.\nWhat Comes After Once you’ve been running this for a few months and know what you actually want:\nProxmox: If you want virtual machines and more isolation A NAS (Synology or DIY TrueNAS): When you have real storage needs A managed switch: When you want VLANs and network segmentation A second server: When you want high availability or Kubernetes A rack: When you have enough hardware to justify it The homelab grows with your knowledge. Start simple, learn deliberately, and add complexity only when you have a specific reason to.\nThe biggest mistake in homelabs is spending $1,500 on hardware before you know what you’re doing. The second biggest mistake is never starting because you think you need $1,500 of hardware. Start with $230, learn the fundamentals, and let the rest follow.\n",
+  "wordCount" : "1379",
+  "inLanguage": "en",
+  "datePublished": "2026-04-18T00:00:00Z",
+  "dateModified": "2026-04-18T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rackmyself.com/posts/beginner-homelab-what-to-buy/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Rack Myself",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rackmyself.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://rackmyself.com/" accesskey="h" title="Rack Myself (Alt + H)">Rack Myself</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://rackmyself.com/posts/" title="Guides">
+                    <span>Guides</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    <a href='https://rackmyself.com/'>Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="https://rackmyself.com/posts/">Posts</a></nav>
+    <h1 class="post-title entry-hint-parent">
+      The Beginner Homelab: What to Buy First and Why
+    </h1>
+    <div class="post-description">
+      Your first homelab doesn&#39;t need to be expensive or complicated. Here&#39;s exactly what to buy first, what to skip, and how to start running real services today.
+    </div>
+    <div class="post-meta"><span title='2026-04-18 00:00:00 +0000 UTC'>April 18, 2026</span>&nbsp;·&nbsp;<span>7 min</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#start-with-a-question-not-hardware" aria-label="Start With a Question, Not Hardware">Start With a Question, Not Hardware</a></li>
+            <li>
+                <a href="#the-starter-path-mini-pc-first" aria-label="The Starter Path: Mini PC First">The Starter Path: Mini PC First</a><ul>
+                    
+            <li>
+                <a href="#the-specific-recommendation" aria-label="The Specific Recommendation">The Specific Recommendation</a></li></ul>
+            </li>
+            <li>
+                <a href="#operating-system-ubuntu-server" aria-label="Operating System: Ubuntu Server">Operating System: Ubuntu Server</a></li>
+            <li>
+                <a href="#what-to-install-first" aria-label="What to Install First">What to Install First</a><ul>
+                    
+            <li>
+                <a href="#1-docker-required" aria-label="1. Docker (Required)">1. Docker (Required)</a></li>
+            <li>
+                <a href="#2-your-first-app-portainer-optional-but-recommended" aria-label="2. Your First App: Portainer (Optional but Recommended)">2. Your First App: Portainer (Optional but Recommended)</a></li>
+            <li>
+                <a href="#3-pi-hole-or-adguard-home-network-ad-blocking" aria-label="3. Pi-hole or AdGuard Home (Network Ad Blocking)">3. Pi-hole or AdGuard Home (Network Ad Blocking)</a></li>
+            <li>
+                <a href="#4-vaultwarden-password-manager" aria-label="4. Vaultwarden (Password Manager)">4. Vaultwarden (Password Manager)</a></li></ul>
+            </li>
+            <li>
+                <a href="#storage-add-a-drive-later" aria-label="Storage: Add a Drive Later">Storage: Add a Drive Later</a></li>
+            <li>
+                <a href="#networking-what-you-actually-need" aria-label="Networking: What You Actually Need">Networking: What You Actually Need</a></li>
+            <li>
+                <a href="#what-not-to-buy-first" aria-label="What Not to Buy First">What Not to Buy First</a></li>
+            <li>
+                <a href="#the-30-day-plan" aria-label="The 30-Day Plan">The 30-Day Plan</a></li>
+            <li>
+                <a href="#total-first-homelab-budget" aria-label="Total First Homelab Budget">Total First Homelab Budget</a></li>
+            <li>
+                <a href="#what-comes-after" aria-label="What Comes After">What Comes After</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p>The homelab rabbit hole is deep. Look up any hardware recommendation and you&rsquo;ll be inundated with rack servers, 10GbE switches, UPS systems, and opinions from people running eight-drive ZFS arrays for fun. None of that is where you should start.</p>
+<p>This guide is the opposite of that. It covers the minimum viable homelab — the stuff that actually matters for a beginner, what to buy first, and how to avoid the common trap of spending a lot of money before you know what you actually need.</p>
+<h2 id="start-with-a-question-not-hardware">Start With a Question, Not Hardware<a hidden class="anchor" aria-hidden="true" href="#start-with-a-question-not-hardware">#</a></h2>
+<p>Before buying anything, decide what you want your homelab to actually do. The hardware requirements vary dramatically depending on the answer.</p>
+<p><strong>Common starting goals:</strong></p>
+<ul>
+<li>Run Pi-hole or AdGuard Home (network-wide ad blocking)</li>
+<li>Self-host a password manager (Vaultwarden)</li>
+<li>Run Jellyfin for a media server</li>
+<li>Learn Docker and Linux</li>
+<li>Run Home Assistant for smart home</li>
+<li>Host local AI models</li>
+</ul>
+<p>Some of these run fine on a $40 Raspberry Pi. Others need a real server. Knowing your goal saves you from either overbuying or hitting a wall immediately.</p>
+<h2 id="the-starter-path-mini-pc-first">The Starter Path: Mini PC First<a hidden class="anchor" aria-hidden="true" href="#the-starter-path-mini-pc-first">#</a></h2>
+<p>For most beginners, the right first purchase is a mini PC. Not a Raspberry Pi (too weak for Docker-heavy setups), not a used rack server (loud, hot, expensive to run), not a NAS (limited flexibility).</p>
+<p>A mini PC gives you:</p>
+<ul>
+<li>Low power draw (6–15W idle)</li>
+<li>Silent operation</li>
+<li>A real x86 CPU that runs everything Docker supports</li>
+<li>Enough RAM to run 10+ containers</li>
+<li>Small enough to stick behind your TV or on a shelf</li>
+</ul>
+<h3 id="the-specific-recommendation">The Specific Recommendation<a hidden class="anchor" aria-hidden="true" href="#the-specific-recommendation">#</a></h3>
+<p><strong><a href="https://www.amazon.com/s?k=Beelink+EQ12&amp;tag=YOURTAG-20">Beelink EQ12 with Intel N100</a></strong> — roughly $150–170 for the 16 GB / 500 GB model.</p>
+<p>Why this one:</p>
+<ul>
+<li>Intel N100: 4 cores, efficient, runs everything you need for a starter homelab</li>
+<li>16 GB RAM: enough for 15–20 containers, Home Assistant, and more</li>
+<li>2.5 GbE: future-proofs your network connection</li>
+<li>6W idle power: costs ~$8/year in electricity</li>
+<li>Silent</li>
+<li>Ships with Ubuntu-compatible hardware (everything works)</li>
+</ul>
+<p>This is the correct first server for 90% of beginners. Buy this, not the $300 option, not a Raspberry Pi, not a used enterprise server.</p>
+<p>If you have $50 more to spend, the <strong><a href="https://www.amazon.com/s?k=Beelink+EQR6&amp;tag=YOURTAG-20">Beelink EQR6 with AMD Ryzen 5 6600H</a></strong> is a meaningful step up — six real cores instead of four efficiency cores, handles more VMs and heavier workloads.</p>
+<h2 id="operating-system-ubuntu-server">Operating System: Ubuntu Server<a hidden class="anchor" aria-hidden="true" href="#operating-system-ubuntu-server">#</a></h2>
+<p>Install Ubuntu Server 24.04 LTS. Not Ubuntu Desktop, not Proxmox (yet), not anything else.</p>
+<p>Ubuntu Server reasons:</p>
+<ul>
+<li>Massive community, excellent documentation</li>
+<li>Docker support is first-class</li>
+<li>Snap packages for some things, apt for everything else</li>
+<li>LTS release means 5 years of security updates</li>
+<li>95% of self-hosting guides assume Ubuntu/Debian</li>
+</ul>
+<p>Proxmox (a hypervisor for running virtual machines) is great but adds complexity. Start with Ubuntu directly — you can migrate to Proxmox later if you need VMs.</p>
+<p><strong>Installing Ubuntu:</strong></p>
+<ol>
+<li>Download Ubuntu Server 24.04 LTS from ubuntu.com</li>
+<li>Flash to a USB drive with Balena Etcher (<a href="https://www.balena.io/etcher/">free download</a>)</li>
+<li>Boot the mini PC from USB</li>
+<li>Follow the installer — select default storage, add your username and password, enable SSH when prompted</li>
+<li>Remove USB when done, let it boot</li>
+</ol>
+<p>Once it&rsquo;s up, SSH in from your main computer:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh username@your-server-ip
+</span></span></code></pre></div><h2 id="what-to-install-first">What to Install First<a hidden class="anchor" aria-hidden="true" href="#what-to-install-first">#</a></h2>
+<h3 id="1-docker-required">1. Docker (Required)<a hidden class="anchor" aria-hidden="true" href="#1-docker-required">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -fsSL https://get.docker.com | sh
+</span></span><span style="display:flex;"><span>sudo usermod -aG docker $USER
+</span></span><span style="display:flex;"><span>newgrp docker
+</span></span></code></pre></div><p>This is your foundation. Docker lets you run almost any self-hosted app in minutes, isolated from your system.</p>
+<h3 id="2-your-first-app-portainer-optional-but-recommended">2. Your First App: Portainer (Optional but Recommended)<a hidden class="anchor" aria-hidden="true" href="#2-your-first-app-portainer-optional-but-recommended">#</a></h3>
+<p>Portainer is a web UI for managing Docker containers. Good for beginners who want a visual interface.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run -d <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -p 9000:9000 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --name portainer <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --restart always <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -v /var/run/docker.sock:/var/run/docker.sock <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -v portainer_data:/data <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  portainer/portainer-ce:latest
+</span></span></code></pre></div><p>Visit <code>http://your-server-ip:9000</code> to set it up.</p>
+<h3 id="3-pi-hole-or-adguard-home-network-ad-blocking">3. Pi-hole or AdGuard Home (Network Ad Blocking)<a hidden class="anchor" aria-hidden="true" href="#3-pi-hole-or-adguard-home-network-ad-blocking">#</a></h3>
+<p>This is the highest-impact low-effort self-hosted service. Set up Pi-hole as your DNS server and every device on your network blocks ads — no browser extensions, no per-device configuration.</p>
+<p>AdGuard Home Docker Compose:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">adguardhome</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">adguard/adguardhome</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">adguardhome</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;53:53/tcp&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;53:53/udp&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;3000:3000/tcp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./work:/opt/adguardhome/work</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./conf:/opt/adguardhome/conf</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span></code></pre></div><p>After setup, point your router&rsquo;s DNS settings to your server&rsquo;s IP. All devices on the network use your server for DNS, which filters ads at the network level.</p>
+<h3 id="4-vaultwarden-password-manager">4. Vaultwarden (Password Manager)<a hidden class="anchor" aria-hidden="true" href="#4-vaultwarden-password-manager">#</a></h3>
+<p>A self-hosted Bitwarden-compatible server. Install once, never pay for a password manager again.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">vaultwarden</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">vaultwarden/server:latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">vaultwarden</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;8080:80&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./data:/data</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">SIGNUPS_ALLOWED=true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span></code></pre></div><p>After first setup, set <code>SIGNUPS_ALLOWED=false</code> to prevent anyone else from creating accounts.</p>
+<h2 id="storage-add-a-drive-later">Storage: Add a Drive Later<a hidden class="anchor" aria-hidden="true" href="#storage-add-a-drive-later">#</a></h2>
+<p>The EQ12 comes with 500 GB NVMe. That&rsquo;s enough to start. Once you know you&rsquo;re staying with this hobby and have more data to store, add storage:</p>
+<ul>
+<li><strong>For bulk storage:</strong> A <a href="https://www.amazon.com/s?k=2TB+2.5+SATA+SSD&amp;tag=YOURTAG-20">2 TB 2.5&quot; SATA SSD</a> (~$80) fits in the EQ12&rsquo;s second bay — plug and play</li>
+<li><strong>For media:</strong> A USB 3.0 external drive works fine for Jellyfin</li>
+<li><strong>For serious storage:</strong> A separate NAS is a later purchase</li>
+</ul>
+<p>Don&rsquo;t buy a 4-bay NAS as your first homelab purchase. You don&rsquo;t know yet how much storage you actually need.</p>
+<h2 id="networking-what-you-actually-need">Networking: What You Actually Need<a hidden class="anchor" aria-hidden="true" href="#networking-what-you-actually-need">#</a></h2>
+<p><strong>You don&rsquo;t need a managed switch.</strong> The switch your router came with handles a beginner homelab fine.</p>
+<p><strong>You don&rsquo;t need VLANs yet.</strong> VLAN segmentation is a real security improvement but adds complexity. Learn the basics first.</p>
+<p><strong>You do need a wired connection for your server.</strong> WiFi introduces latency and reliability issues. Run a cable from your router to your server. If the server is in another room, a <a href="https://www.amazon.com/s?k=flat+cat6+ethernet+cable+25ft&amp;tag=YOURTAG-20">flat Cat6 cable</a> runs under doors and along baseboards invisibly.</p>
+<p><strong>You should get a UPS.</strong> Power blips corrupt drives and databases. An inexpensive UPS protects your investment.</p>
+<p><a href="https://www.amazon.com/dp/B01FWYEOLY?tag=YOURTAG-20">APC BE600M1 UPS</a> — $55, protects against most common power events, gives your server 5–10 minutes of runtime to shut down cleanly.</p>
+<h2 id="what-not-to-buy-first">What Not to Buy First<a hidden class="anchor" aria-hidden="true" href="#what-not-to-buy-first">#</a></h2>
+<p><strong>A rack:</strong> Racks are for people with multiple 1U/2U servers. A single mini PC doesn&rsquo;t need a rack.</p>
+<p><strong>A managed switch:</strong> You don&rsquo;t need VLANs yet. A simple unmanaged gigabit switch is fine.</p>
+<p><strong>A dedicated NAS:</strong> Your mini PC can serve files. Add a NAS when you have data that justifies it.</p>
+<p><strong>Enterprise hardware (Dell R720, HP DL380, etc.):</strong> These are loud (70–80 dB), power-hungry (200–500W), and large. They&rsquo;re great at what they do but wrong for a home.</p>
+<p><strong>More hardware than you can learn:</strong> Buying everything at once means you&rsquo;re overwhelmed before you start. Add pieces as you have a specific reason.</p>
+<h2 id="the-30-day-plan">The 30-Day Plan<a hidden class="anchor" aria-hidden="true" href="#the-30-day-plan">#</a></h2>
+<p><strong>Week 1:</strong> Get the mini PC, install Ubuntu Server, SSH in, install Docker. Deploy Portainer. Get comfortable in the terminal.</p>
+<p><strong>Week 2:</strong> Deploy AdGuard Home, set your router to use it for DNS. Deploy Vaultwarden, migrate your passwords. Run both for a week without touching anything else.</p>
+<p><strong>Week 3:</strong> Deploy Jellyfin or Navidrome (music server). Move some media to your server. Learn how Docker volumes work.</p>
+<p><strong>Week 4:</strong> Set up Cloudflare Tunnels to access one service remotely. Understand what a reverse proxy does conceptually.</p>
+<p>By day 30, you have a working homelab running real services you use daily, and you understand the fundamentals well enough to make intelligent decisions about what to add next.</p>
+<h2 id="total-first-homelab-budget">Total First Homelab Budget<a hidden class="anchor" aria-hidden="true" href="#total-first-homelab-budget">#</a></h2>
+<table>
+  <thead>
+      <tr>
+          <th>Item</th>
+          <th>Approx Cost</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Beelink EQ12 Mini PC (16GB/500GB)</td>
+          <td>$165</td>
+      </tr>
+      <tr>
+          <td>Flat Cat6 Ethernet cable</td>
+          <td>$12</td>
+      </tr>
+      <tr>
+          <td>APC UPS BE600M1</td>
+          <td>$55</td>
+      </tr>
+      <tr>
+          <td>Domain name (optional)</td>
+          <td>$12/yr</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Total: ~$232</strong> plus a free afternoon.</p>
+<p>That&rsquo;s it. No NAS, no rack, no managed switch, no enterprise hardware. Just a capable little server that runs quiet in the corner and runs dozens of services on $8/year of electricity.</p>
+<h2 id="what-comes-after">What Comes After<a hidden class="anchor" aria-hidden="true" href="#what-comes-after">#</a></h2>
+<p>Once you&rsquo;ve been running this for a few months and know what you actually want:</p>
+<ul>
+<li><strong>Proxmox:</strong> If you want virtual machines and more isolation</li>
+<li><strong>A NAS (Synology or DIY TrueNAS):</strong> When you have real storage needs</li>
+<li><strong>A managed switch:</strong> When you want VLANs and network segmentation</li>
+<li><strong>A second server:</strong> When you want high availability or Kubernetes</li>
+<li><strong>A rack:</strong> When you have enough hardware to justify it</li>
+</ul>
+<p>The homelab grows with your knowledge. Start simple, learn deliberately, and add complexity only when you have a specific reason to.</p>
+<p>The biggest mistake in homelabs is spending $1,500 on hardware before you know what you&rsquo;re doing. The second biggest mistake is never starting because you think you need $1,500 of hardware. Start with $230, learn the fundamentals, and let the rest follow.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://rackmyself.com/tags/homelab/">Homelab</a></li>
+      <li><a href="https://rackmyself.com/tags/beginners/">Beginners</a></li>
+      <li><a href="https://rackmyself.com/tags/hardware/">Hardware</a></li>
+      <li><a href="https://rackmyself.com/tags/getting-started/">Getting Started</a></li>
+      <li><a href="https://rackmyself.com/tags/self-hosting/">Self-Hosting</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://rackmyself.com/posts/self-hosting-vs-cloud/">
+    <span class="title">« Prev</span>
+    <span>Self-Hosting vs. The Cloud: When It Actually Makes Sense</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://rackmyself.com/">Rack Myself</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

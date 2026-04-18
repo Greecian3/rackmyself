@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Categories on Rack Myself</title>
+    <link>https://rackmyself.com/categories/</link>
+    <description>Recent content in Categories on Rack Myself</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 18 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://rackmyself.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Guides</title>
+      <link>https://rackmyself.com/categories/guides/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/categories/guides/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hardware</title>
+      <link>https://rackmyself.com/categories/hardware/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/categories/hardware/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Networking</title>
+      <link>https://rackmyself.com/categories/networking/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/categories/networking/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Opinion</title>
+      <link>https://rackmyself.com/categories/opinion/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/categories/opinion/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

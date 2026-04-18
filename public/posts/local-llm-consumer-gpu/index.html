@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>How to Run a Local LLM on a Consumer GPU (3090, 4090, etc.) | Rack Myself</title>
+<meta name="keywords" content="llm, local ai, gpu, ollama, nvidia, home server">
+<meta name="description" content="A practical guide to running large language models on consumer NVIDIA GPUs. Which models fit in which VRAM, what to buy, and how to set it all up.">
+<meta name="author" content="">
+<link rel="canonical" href="https://rackmyself.com/posts/local-llm-consumer-gpu/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b72e7725c68fccaac08b7b94b4bf3724ac8531837c6717dbd3e55b5a23b0117.css" integrity="sha256-S3Lnclxo/MqsCLe5S0vzckrIUxg3xnF9vT5VtaI7ARc=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://rackmyself.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://rackmyself.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://rackmyself.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://rackmyself.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://rackmyself.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://rackmyself.com/posts/local-llm-consumer-gpu/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://rackmyself.com/posts/local-llm-consumer-gpu/">
+  <meta property="og:site_name" content="Rack Myself">
+  <meta property="og:title" content="How to Run a Local LLM on a Consumer GPU (3090, 4090, etc.)">
+  <meta property="og:description" content="A practical guide to running large language models on consumer NVIDIA GPUs. Which models fit in which VRAM, what to buy, and how to set it all up.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-18T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-04-18T00:00:00+00:00">
+    <meta property="article:tag" content="Llm">
+    <meta property="article:tag" content="Local Ai">
+    <meta property="article:tag" content="Gpu">
+    <meta property="article:tag" content="Ollama">
+    <meta property="article:tag" content="Nvidia">
+    <meta property="article:tag" content="Home Server">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="How to Run a Local LLM on a Consumer GPU (3090, 4090, etc.)">
+  <meta name="twitter:description" content="A practical guide to running large language models on consumer NVIDIA GPUs. Which models fit in which VRAM, what to buy, and how to set it all up.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://rackmyself.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "How to Run a Local LLM on a Consumer GPU (3090, 4090, etc.)",
+      "item": "https://rackmyself.com/posts/local-llm-consumer-gpu/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How to Run a Local LLM on a Consumer GPU (3090, 4090, etc.)",
+  "name": "How to Run a Local LLM on a Consumer GPU (3090, 4090, etc.)",
+  "description": "A practical guide to running large language models on consumer NVIDIA GPUs. Which models fit in which VRAM, what to buy, and how to set it all up.",
+  "keywords": [
+    "llm", "local ai", "gpu", "ollama", "nvidia", "home server"
+  ],
+  "articleBody": "Consumer GPUs have become the de facto hardware for running local LLMs. The math is simple: large language models live and die by VRAM, and NVIDIA’s consumer cards offer more VRAM per dollar than any cloud alternative or enterprise GPU you could buy new. A used RTX 3090 with 24 GB of VRAM runs models that would cost $2–5/hour on cloud GPU instances — for a one-time hardware investment of $600–800.\nThis guide covers what hardware to buy, what models fit in it, and how to get everything running.\nWhy VRAM Is Everything When you run a language model, the model weights have to fit in GPU memory (VRAM). If they don’t fit entirely, inference falls back to system RAM, which is dramatically slower — often 10–30x. Full GPU inference is the goal.\nAs a rough rule: 1 billion parameters at 4-bit quantization uses about 700 MB of VRAM. So:\nModel Size 4-bit VRAM 8-bit VRAM 16-bit VRAM 7B ~5 GB ~8 GB ~14 GB 13B ~9 GB ~14 GB ~28 GB 34B ~22 GB ~34 GB ~68 GB 70B ~44 GB ~70 GB ~140 GB These are approximations — actual usage includes KV cache overhead and overhead from the runtime, but this gets you in the right ballpark.\nConsumer GPU Recommendations RTX 3060 12GB (~$280 used) The best value entry point for local LLM work. 12 GB of GDDR6 comfortably fits 7B models at 8-bit quantization, or 13B models at 4-bit. Fast enough for real-time chat, cheap enough to be a starter GPU.\nFits: 7B (q8), 13B (q4), Phi-3 medium\nNVIDIA RTX 3060 12GB on Amazon\nRTX 3090 24GB (~$650 used) The sweet spot for serious local AI work. 24 GB fits 34B models at 4-bit, or 13B models comfortably at full precision. This is the workhorse recommendation — you can run genuinely capable models without compromise.\nFits: 7B (full precision), 13B (q8), 34B (q4), 33B Code models\nNVIDIA RTX 3090 24GB on Amazon\nRTX 4090 24GB (~$1,600 new, ~$1,300 used) Same VRAM as the 3090, but with dramatically faster memory bandwidth (1008 GB/s vs 936 GB/s) and better compute. The real-world difference in inference speed is 40–60% faster than a 3090 at the same model size. If you’re doing this seriously or building around AI, the 4090 is worth the premium.\nFits: Same as 3090, but faster\nNVIDIA RTX 4090 on Amazon\nRTX 4060 Ti 16GB (~$450 new) Underrated for AI workloads. The 16 GB version gives you enough VRAM for 13B at q8 or 34B at q4 in a power-efficient 165W package. For a mini PC or ITX build where power matters, this is a strong pick.\nNVIDIA RTX 4060 Ti 16GB on Amazon\nDual GPU: 2x RTX 3090 (~$1,200-1,400 used) If you have a proper desktop with two PCIe slots and a beefy PSU, two 3090s give you 48 GB of combined VRAM (via NVLink or tensor parallel inference with tools like llama.cpp). This opens up 70B models at 4-bit quantization — which hits close to GPT-4 quality on many benchmarks.\nThis requires planning: a beefy ATX case, a 1200W+ PSU, good cooling, and motherboard with two full x16 or x8 PCIe slots.\nInstalling the Stack Step 1: NVIDIA Drivers On Ubuntu/Debian, the easiest path:\nsudo apt update sudo apt install nvidia-driver-550 nvidia-cuda-toolkit sudo reboot After reboot:\nnvidia-smi You should see your GPU listed with driver version and VRAM.\nStep 2: Install Ollama curl -fsSL https://ollama.com/install.sh | sh Ollama auto-detects CUDA and uses the GPU. Verify:\nollama run llama3.1:8b --verbose Look for GPU layers: XX in the output — that tells you how many layers are offloaded to the GPU. For a 7B model on a 12 GB GPU, all layers should offload.\nStep 3: Pull and Benchmark Models Pull a model:\nollama pull llama3.1:8b Test inference speed:\nollama run llama3.1:8b \"Write a paragraph about the Roman Empire\" Watch the tokens/sec in the output. On an RTX 3090, expect 50–80 tokens/sec for a 7B model. On an RTX 4090, 80–120 tokens/sec.\nModel Recommendations by GPU 8–12 GB VRAM (RTX 3060/3070, RTX 4060) Best models in this VRAM range:\nLlama 3.2 3B (ollama pull llama3.2:3b) — fast, efficient, great for quick tasks Mistral 7B Instruct (ollama pull mistral:7b) — excellent instruction following, quick inference Phi-3 Medium 14B (ollama pull phi3:medium) — Microsoft’s efficient model, punches above its parameter count Qwen2.5 Coder 7B (ollama pull qwen2.5-coder:7b) — best coding model in this size range 16–20 GB VRAM (RTX 4060 Ti 16GB, RTX 4080) Additional models that fit:\nLlama 3.1 13B — strong general-purpose model DeepSeek Coder V2 16B — excellent for code generation Gemma 2 12B — Google’s efficient open model, very capable 24 GB VRAM (RTX 3090, RTX 4090) The full range opens up:\nLlama 3.1 70B Q4 — partially on GPU (needs system RAM for overflow) — technically works but GPU layers will be split Llama 3.3 70B Q4 — same situation, 70B at 4-bit needs ~44 GB total Llama 3.1 34B (ollama pull llama3.1:34b) — fits comfortably, GPT-4 class on many tasks DeepSeek R1 32B — strong reasoning model, fits in 24 GB To run 70B models fully in VRAM, you need either 48 GB (two 3090s) or 80+ GB (professional hardware like A100).\nllama.cpp for Advanced Control Ollama is built on llama.cpp but abstracts away the details. For more control — custom quantizations, specific GPU layer counts, CPU+GPU offloading — run llama.cpp directly.\nBuild it:\ngit clone https://github.com/ggml-org/llama.cpp cd llama.cpp cmake -B build -DGGML_CUDA=ON cmake --build build --config Release -j $(nproc) Download a GGUF model from Hugging Face and run:\n./build/bin/llama-cli \\ -m /path/to/model.gguf \\ -ngl 99 \\ # offload all layers to GPU -c 4096 \\ # context length -t 8 \\ # CPU threads -p \"Your prompt here\" The -ngl flag controls how many layers go to GPU. Set it to the maximum your VRAM allows (start with 99 and reduce if you get OOM errors).\nSystem RAM and CPU Also Matter VRAM is the constraint for model size, but system RAM and CPU matter for:\nContext length: The KV cache for long contexts is large. 4K tokens might need 1–2 GB of additional RAM/VRAM. Running 32K context contexts on a 7B model requires significant extra memory. Tokenization and preprocessing: Happens on CPU before GPU inference. Multi-user setups: If multiple people are using the server simultaneously, you need enough CPU/RAM to handle concurrent requests without queueing. Minimum for a GPU AI server: 32 GB system RAM, modern 8-core CPU.\nRecommended: 64 GB RAM, AMD Ryzen 9 or Intel Core i9.\nFull Hardware Build for Local AI A purpose-built local AI server doesn’t need to be a workstation. A mid-tower with a GPU handles everything:\nComponent Recommendation Approx Price GPU RTX 3090 (used) $650 CPU AMD Ryzen 7 5700X $150 Motherboard B550 ATX $120 RAM 64 GB DDR4 3200 $100 PSU 850W 80+ Gold $100 Case Mid-tower ATX $80 NVMe SSD 1TB Samsung 980 Pro $90 Total: ~$1,300 for a machine that runs 34B models at full VRAM, handles 70B models with CPU offload, and serves multiple users via Open WebUI.\nAMD Ryzen 7 5700X on Amazon 64GB DDR4 RAM Kit on Amazon\nPower Draw and Running Costs GPU inference is power-hungry:\nRTX 3090 at full load: ~350W RTX 4090 at full load: ~450W Whole system at inference: 400–550W typical At $0.15/kWh, running at full load 8 hours/day costs ~$18–24/month. Most AI servers don’t run at full load constantly — they spike during inference and idle the rest of the time. Real-world costs for typical use are $10–15/month.\nThis is still far less than running equivalent cloud API calls at scale.\nWhat’s Next Once you have a GPU AI server running:\nAdd Open WebUI for a proper chat interface Set up Cloudflare Tunnels for remote access from any device Try Continue.dev for AI-assisted coding in VSCode/JetBrains — pointed at your Ollama server Experiment with embeddings for building RAG pipelines with local document search Local AI on consumer hardware is genuinely capable in 2026. The gap between Llama 3.1 70B and GPT-4o is real but narrowing — for many everyday tasks, local models are already good enough, and the privacy and cost advantages make the setup worthwhile.\n",
+  "wordCount" : "1363",
+  "inLanguage": "en",
+  "datePublished": "2026-04-18T00:00:00Z",
+  "dateModified": "2026-04-18T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rackmyself.com/posts/local-llm-consumer-gpu/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Rack Myself",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rackmyself.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://rackmyself.com/" accesskey="h" title="Rack Myself (Alt + H)">Rack Myself</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://rackmyself.com/posts/" title="Guides">
+                    <span>Guides</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    <a href='https://rackmyself.com/'>Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="https://rackmyself.com/posts/">Posts</a></nav>
+    <h1 class="post-title entry-hint-parent">
+      How to Run a Local LLM on a Consumer GPU (3090, 4090, etc.)
+    </h1>
+    <div class="post-description">
+      A practical guide to running large language models on consumer NVIDIA GPUs. Which models fit in which VRAM, what to buy, and how to set it all up.
+    </div>
+    <div class="post-meta"><span title='2026-04-18 00:00:00 +0000 UTC'>April 18, 2026</span>&nbsp;·&nbsp;<span>7 min</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#why-vram-is-everything" aria-label="Why VRAM Is Everything">Why VRAM Is Everything</a></li>
+            <li>
+                <a href="#consumer-gpu-recommendations" aria-label="Consumer GPU Recommendations">Consumer GPU Recommendations</a><ul>
+                    
+            <li>
+                <a href="#rtx-3060-12gb-280-used" aria-label="RTX 3060 12GB (~$280 used)">RTX 3060 12GB (~$280 used)</a></li>
+            <li>
+                <a href="#rtx-3090-24gb-650-used" aria-label="RTX 3090 24GB (~$650 used)">RTX 3090 24GB (~$650 used)</a></li>
+            <li>
+                <a href="#rtx-4090-24gb-1600-new-1300-used" aria-label="RTX 4090 24GB (~$1,600 new, ~$1,300 used)">RTX 4090 24GB (~$1,600 new, ~$1,300 used)</a></li>
+            <li>
+                <a href="#rtx-4060-ti-16gb-450-new" aria-label="RTX 4060 Ti 16GB (~$450 new)">RTX 4060 Ti 16GB (~$450 new)</a></li>
+            <li>
+                <a href="#dual-gpu-2x-rtx-3090-1200-1400-used" aria-label="Dual GPU: 2x RTX 3090 (~$1,200-1,400 used)">Dual GPU: 2x RTX 3090 (~$1,200-1,400 used)</a></li></ul>
+            </li>
+            <li>
+                <a href="#installing-the-stack" aria-label="Installing the Stack">Installing the Stack</a><ul>
+                    
+            <li>
+                <a href="#step-1-nvidia-drivers" aria-label="Step 1: NVIDIA Drivers">Step 1: NVIDIA Drivers</a></li>
+            <li>
+                <a href="#step-2-install-ollama" aria-label="Step 2: Install Ollama">Step 2: Install Ollama</a></li>
+            <li>
+                <a href="#step-3-pull-and-benchmark-models" aria-label="Step 3: Pull and Benchmark Models">Step 3: Pull and Benchmark Models</a></li></ul>
+            </li>
+            <li>
+                <a href="#model-recommendations-by-gpu" aria-label="Model Recommendations by GPU">Model Recommendations by GPU</a><ul>
+                    
+            <li>
+                <a href="#812-gb-vram-rtx-30603070-rtx-4060" aria-label="8–12 GB VRAM (RTX 3060/3070, RTX 4060)">8–12 GB VRAM (RTX 3060/3070, RTX 4060)</a></li>
+            <li>
+                <a href="#1620-gb-vram-rtx-4060-ti-16gb-rtx-4080" aria-label="16–20 GB VRAM (RTX 4060 Ti 16GB, RTX 4080)">16–20 GB VRAM (RTX 4060 Ti 16GB, RTX 4080)</a></li>
+            <li>
+                <a href="#24-gb-vram-rtx-3090-rtx-4090" aria-label="24 GB VRAM (RTX 3090, RTX 4090)">24 GB VRAM (RTX 3090, RTX 4090)</a></li></ul>
+            </li>
+            <li>
+                <a href="#llamacpp-for-advanced-control" aria-label="llama.cpp for Advanced Control">llama.cpp for Advanced Control</a></li>
+            <li>
+                <a href="#system-ram-and-cpu-also-matter" aria-label="System RAM and CPU Also Matter">System RAM and CPU Also Matter</a></li>
+            <li>
+                <a href="#full-hardware-build-for-local-ai" aria-label="Full Hardware Build for Local AI">Full Hardware Build for Local AI</a></li>
+            <li>
+                <a href="#power-draw-and-running-costs" aria-label="Power Draw and Running Costs">Power Draw and Running Costs</a></li>
+            <li>
+                <a href="#whats-next" aria-label="What&rsquo;s Next">What&rsquo;s Next</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p>Consumer GPUs have become the de facto hardware for running local LLMs. The math is simple: large language models live and die by VRAM, and NVIDIA&rsquo;s consumer cards offer more VRAM per dollar than any cloud alternative or enterprise GPU you could buy new. A used RTX 3090 with 24 GB of VRAM runs models that would cost $2–5/hour on cloud GPU instances — for a one-time hardware investment of $600–800.</p>
+<p>This guide covers what hardware to buy, what models fit in it, and how to get everything running.</p>
+<h2 id="why-vram-is-everything">Why VRAM Is Everything<a hidden class="anchor" aria-hidden="true" href="#why-vram-is-everything">#</a></h2>
+<p>When you run a language model, the model weights have to fit in GPU memory (VRAM). If they don&rsquo;t fit entirely, inference falls back to system RAM, which is dramatically slower — often 10–30x. Full GPU inference is the goal.</p>
+<p>As a rough rule: 1 billion parameters at 4-bit quantization uses about 700 MB of VRAM. So:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Model Size</th>
+          <th>4-bit VRAM</th>
+          <th>8-bit VRAM</th>
+          <th>16-bit VRAM</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>7B</td>
+          <td>~5 GB</td>
+          <td>~8 GB</td>
+          <td>~14 GB</td>
+      </tr>
+      <tr>
+          <td>13B</td>
+          <td>~9 GB</td>
+          <td>~14 GB</td>
+          <td>~28 GB</td>
+      </tr>
+      <tr>
+          <td>34B</td>
+          <td>~22 GB</td>
+          <td>~34 GB</td>
+          <td>~68 GB</td>
+      </tr>
+      <tr>
+          <td>70B</td>
+          <td>~44 GB</td>
+          <td>~70 GB</td>
+          <td>~140 GB</td>
+      </tr>
+  </tbody>
+</table>
+<p>These are approximations — actual usage includes KV cache overhead and overhead from the runtime, but this gets you in the right ballpark.</p>
+<h2 id="consumer-gpu-recommendations">Consumer GPU Recommendations<a hidden class="anchor" aria-hidden="true" href="#consumer-gpu-recommendations">#</a></h2>
+<h3 id="rtx-3060-12gb-280-used">RTX 3060 12GB (~$280 used)<a hidden class="anchor" aria-hidden="true" href="#rtx-3060-12gb-280-used">#</a></h3>
+<p>The best value entry point for local LLM work. 12 GB of GDDR6 comfortably fits 7B models at 8-bit quantization, or 13B models at 4-bit. Fast enough for real-time chat, cheap enough to be a starter GPU.</p>
+<p>Fits: 7B (q8), 13B (q4), Phi-3 medium</p>
+<p><a href="https://www.amazon.com/s?k=RTX+3060+12GB&amp;tag=YOURTAG-20">NVIDIA RTX 3060 12GB on Amazon</a></p>
+<h3 id="rtx-3090-24gb-650-used">RTX 3090 24GB (~$650 used)<a hidden class="anchor" aria-hidden="true" href="#rtx-3090-24gb-650-used">#</a></h3>
+<p>The sweet spot for serious local AI work. 24 GB fits 34B models at 4-bit, or 13B models comfortably at full precision. This is the workhorse recommendation — you can run genuinely capable models without compromise.</p>
+<p>Fits: 7B (full precision), 13B (q8), 34B (q4), 33B Code models</p>
+<p><a href="https://www.amazon.com/s?k=RTX+3090+24GB&amp;tag=YOURTAG-20">NVIDIA RTX 3090 24GB on Amazon</a></p>
+<h3 id="rtx-4090-24gb-1600-new-1300-used">RTX 4090 24GB (~$1,600 new, ~$1,300 used)<a hidden class="anchor" aria-hidden="true" href="#rtx-4090-24gb-1600-new-1300-used">#</a></h3>
+<p>Same VRAM as the 3090, but with dramatically faster memory bandwidth (1008 GB/s vs 936 GB/s) and better compute. The real-world difference in inference speed is 40–60% faster than a 3090 at the same model size. If you&rsquo;re doing this seriously or building around AI, the 4090 is worth the premium.</p>
+<p>Fits: Same as 3090, but faster</p>
+<p><a href="https://www.amazon.com/s?k=RTX+4090&amp;tag=YOURTAG-20">NVIDIA RTX 4090 on Amazon</a></p>
+<h3 id="rtx-4060-ti-16gb-450-new">RTX 4060 Ti 16GB (~$450 new)<a hidden class="anchor" aria-hidden="true" href="#rtx-4060-ti-16gb-450-new">#</a></h3>
+<p>Underrated for AI workloads. The 16 GB version gives you enough VRAM for 13B at q8 or 34B at q4 in a power-efficient 165W package. For a mini PC or ITX build where power matters, this is a strong pick.</p>
+<p><a href="https://www.amazon.com/s?k=RTX+4060+Ti+16GB&amp;tag=YOURTAG-20">NVIDIA RTX 4060 Ti 16GB on Amazon</a></p>
+<h3 id="dual-gpu-2x-rtx-3090-1200-1400-used">Dual GPU: 2x RTX 3090 (~$1,200-1,400 used)<a hidden class="anchor" aria-hidden="true" href="#dual-gpu-2x-rtx-3090-1200-1400-used">#</a></h3>
+<p>If you have a proper desktop with two PCIe slots and a beefy PSU, two 3090s give you 48 GB of combined VRAM (via NVLink or tensor parallel inference with tools like llama.cpp). This opens up 70B models at 4-bit quantization — which hits close to GPT-4 quality on many benchmarks.</p>
+<p>This requires planning: a beefy ATX case, a 1200W+ PSU, good cooling, and motherboard with two full x16 or x8 PCIe slots.</p>
+<h2 id="installing-the-stack">Installing the Stack<a hidden class="anchor" aria-hidden="true" href="#installing-the-stack">#</a></h2>
+<h3 id="step-1-nvidia-drivers">Step 1: NVIDIA Drivers<a hidden class="anchor" aria-hidden="true" href="#step-1-nvidia-drivers">#</a></h3>
+<p>On Ubuntu/Debian, the easiest path:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt install nvidia-driver-550 nvidia-cuda-toolkit
+</span></span><span style="display:flex;"><span>sudo reboot
+</span></span></code></pre></div><p>After reboot:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nvidia-smi
+</span></span></code></pre></div><p>You should see your GPU listed with driver version and VRAM.</p>
+<h3 id="step-2-install-ollama">Step 2: Install Ollama<a hidden class="anchor" aria-hidden="true" href="#step-2-install-ollama">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -fsSL https://ollama.com/install.sh | sh
+</span></span></code></pre></div><p>Ollama auto-detects CUDA and uses the GPU. Verify:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ollama run llama3.1:8b --verbose
+</span></span></code></pre></div><p>Look for <code>GPU layers: XX</code> in the output — that tells you how many layers are offloaded to the GPU. For a 7B model on a 12 GB GPU, all layers should offload.</p>
+<h3 id="step-3-pull-and-benchmark-models">Step 3: Pull and Benchmark Models<a hidden class="anchor" aria-hidden="true" href="#step-3-pull-and-benchmark-models">#</a></h3>
+<p>Pull a model:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ollama pull llama3.1:8b
+</span></span></code></pre></div><p>Test inference speed:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ollama run llama3.1:8b <span style="color:#e6db74">&#34;Write a paragraph about the Roman Empire&#34;</span>
+</span></span></code></pre></div><p>Watch the tokens/sec in the output. On an RTX 3090, expect 50–80 tokens/sec for a 7B model. On an RTX 4090, 80–120 tokens/sec.</p>
+<h2 id="model-recommendations-by-gpu">Model Recommendations by GPU<a hidden class="anchor" aria-hidden="true" href="#model-recommendations-by-gpu">#</a></h2>
+<h3 id="812-gb-vram-rtx-30603070-rtx-4060">8–12 GB VRAM (RTX 3060/3070, RTX 4060)<a hidden class="anchor" aria-hidden="true" href="#812-gb-vram-rtx-30603070-rtx-4060">#</a></h3>
+<p>Best models in this VRAM range:</p>
+<ul>
+<li><strong>Llama 3.2 3B</strong> (<code>ollama pull llama3.2:3b</code>) — fast, efficient, great for quick tasks</li>
+<li><strong>Mistral 7B Instruct</strong> (<code>ollama pull mistral:7b</code>) — excellent instruction following, quick inference</li>
+<li><strong>Phi-3 Medium 14B</strong> (<code>ollama pull phi3:medium</code>) — Microsoft&rsquo;s efficient model, punches above its parameter count</li>
+<li><strong>Qwen2.5 Coder 7B</strong> (<code>ollama pull qwen2.5-coder:7b</code>) — best coding model in this size range</li>
+</ul>
+<h3 id="1620-gb-vram-rtx-4060-ti-16gb-rtx-4080">16–20 GB VRAM (RTX 4060 Ti 16GB, RTX 4080)<a hidden class="anchor" aria-hidden="true" href="#1620-gb-vram-rtx-4060-ti-16gb-rtx-4080">#</a></h3>
+<p>Additional models that fit:</p>
+<ul>
+<li><strong>Llama 3.1 13B</strong> — strong general-purpose model</li>
+<li><strong>DeepSeek Coder V2 16B</strong> — excellent for code generation</li>
+<li><strong>Gemma 2 12B</strong> — Google&rsquo;s efficient open model, very capable</li>
+</ul>
+<h3 id="24-gb-vram-rtx-3090-rtx-4090">24 GB VRAM (RTX 3090, RTX 4090)<a hidden class="anchor" aria-hidden="true" href="#24-gb-vram-rtx-3090-rtx-4090">#</a></h3>
+<p>The full range opens up:</p>
+<ul>
+<li><strong>Llama 3.1 70B Q4</strong> — partially on GPU (needs system RAM for overflow) — <em>technically</em> works but GPU layers will be split</li>
+<li><strong>Llama 3.3 70B Q4</strong> — same situation, 70B at 4-bit needs ~44 GB total</li>
+<li><strong>Llama 3.1 34B</strong> (<code>ollama pull llama3.1:34b</code>) — fits comfortably, GPT-4 class on many tasks</li>
+<li><strong>DeepSeek R1 32B</strong> — strong reasoning model, fits in 24 GB</li>
+</ul>
+<p>To run 70B models fully in VRAM, you need either 48 GB (two 3090s) or 80+ GB (professional hardware like A100).</p>
+<h2 id="llamacpp-for-advanced-control">llama.cpp for Advanced Control<a hidden class="anchor" aria-hidden="true" href="#llamacpp-for-advanced-control">#</a></h2>
+<p>Ollama is built on llama.cpp but abstracts away the details. For more control — custom quantizations, specific GPU layer counts, CPU+GPU offloading — run llama.cpp directly.</p>
+<p>Build it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/ggml-org/llama.cpp
+</span></span><span style="display:flex;"><span>cd llama.cpp
+</span></span><span style="display:flex;"><span>cmake -B build -DGGML_CUDA<span style="color:#f92672">=</span>ON
+</span></span><span style="display:flex;"><span>cmake --build build --config Release -j <span style="color:#66d9ef">$(</span>nproc<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><p>Download a GGUF model from Hugging Face and run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./build/bin/llama-cli <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -m /path/to/model.gguf <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -ngl <span style="color:#ae81ff">99</span> <span style="color:#ae81ff">\ </span>          <span style="color:#75715e"># offload all layers to GPU</span>
+</span></span><span style="display:flex;"><span>  -c <span style="color:#ae81ff">4096</span> <span style="color:#ae81ff">\ </span>          <span style="color:#75715e"># context length</span>
+</span></span><span style="display:flex;"><span>  -t <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">\ </span>             <span style="color:#75715e"># CPU threads</span>
+</span></span><span style="display:flex;"><span>  -p <span style="color:#e6db74">&#34;Your prompt here&#34;</span>
+</span></span></code></pre></div><p>The <code>-ngl</code> flag controls how many layers go to GPU. Set it to the maximum your VRAM allows (start with 99 and reduce if you get OOM errors).</p>
+<h2 id="system-ram-and-cpu-also-matter">System RAM and CPU Also Matter<a hidden class="anchor" aria-hidden="true" href="#system-ram-and-cpu-also-matter">#</a></h2>
+<p>VRAM is the constraint for model size, but system RAM and CPU matter for:</p>
+<ul>
+<li><strong>Context length:</strong> The KV cache for long contexts is large. 4K tokens might need 1–2 GB of additional RAM/VRAM. Running 32K context contexts on a 7B model requires significant extra memory.</li>
+<li><strong>Tokenization and preprocessing:</strong> Happens on CPU before GPU inference.</li>
+<li><strong>Multi-user setups:</strong> If multiple people are using the server simultaneously, you need enough CPU/RAM to handle concurrent requests without queueing.</li>
+</ul>
+<p>Minimum for a GPU AI server: 32 GB system RAM, modern 8-core CPU.</p>
+<p>Recommended: 64 GB RAM, AMD Ryzen 9 or Intel Core i9.</p>
+<h2 id="full-hardware-build-for-local-ai">Full Hardware Build for Local AI<a hidden class="anchor" aria-hidden="true" href="#full-hardware-build-for-local-ai">#</a></h2>
+<p>A purpose-built local AI server doesn&rsquo;t need to be a workstation. A mid-tower with a GPU handles everything:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Component</th>
+          <th>Recommendation</th>
+          <th>Approx Price</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>GPU</td>
+          <td>RTX 3090 (used)</td>
+          <td>$650</td>
+      </tr>
+      <tr>
+          <td>CPU</td>
+          <td>AMD Ryzen 7 5700X</td>
+          <td>$150</td>
+      </tr>
+      <tr>
+          <td>Motherboard</td>
+          <td>B550 ATX</td>
+          <td>$120</td>
+      </tr>
+      <tr>
+          <td>RAM</td>
+          <td>64 GB DDR4 3200</td>
+          <td>$100</td>
+      </tr>
+      <tr>
+          <td>PSU</td>
+          <td>850W 80+ Gold</td>
+          <td>$100</td>
+      </tr>
+      <tr>
+          <td>Case</td>
+          <td>Mid-tower ATX</td>
+          <td>$80</td>
+      </tr>
+      <tr>
+          <td>NVMe SSD 1TB</td>
+          <td>Samsung 980 Pro</td>
+          <td>$90</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Total: ~$1,300</strong> for a machine that runs 34B models at full VRAM, handles 70B models with CPU offload, and serves multiple users via Open WebUI.</p>
+<p><a href="https://www.amazon.com/s?k=Ryzen+7+5700X&amp;tag=YOURTAG-20">AMD Ryzen 7 5700X on Amazon</a>
+<a href="https://www.amazon.com/s?k=64GB+DDR4+3200+kit&amp;tag=YOURTAG-20">64GB DDR4 RAM Kit on Amazon</a></p>
+<h2 id="power-draw-and-running-costs">Power Draw and Running Costs<a hidden class="anchor" aria-hidden="true" href="#power-draw-and-running-costs">#</a></h2>
+<p>GPU inference is power-hungry:</p>
+<ul>
+<li>RTX 3090 at full load: ~350W</li>
+<li>RTX 4090 at full load: ~450W</li>
+<li>Whole system at inference: 400–550W typical</li>
+</ul>
+<p>At $0.15/kWh, running at full load 8 hours/day costs ~$18–24/month. Most AI servers don&rsquo;t run at full load constantly — they spike during inference and idle the rest of the time. Real-world costs for typical use are $10–15/month.</p>
+<p>This is still far less than running equivalent cloud API calls at scale.</p>
+<h2 id="whats-next">What&rsquo;s Next<a hidden class="anchor" aria-hidden="true" href="#whats-next">#</a></h2>
+<p>Once you have a GPU AI server running:</p>
+<ol>
+<li><strong>Add Open WebUI</strong> for a proper chat interface</li>
+<li><strong>Set up Cloudflare Tunnels</strong> for remote access from any device</li>
+<li><strong>Try Continue.dev</strong> for AI-assisted coding in VSCode/JetBrains — pointed at your Ollama server</li>
+<li><strong>Experiment with embeddings</strong> for building RAG pipelines with local document search</li>
+</ol>
+<p>Local AI on consumer hardware is genuinely capable in 2026. The gap between Llama 3.1 70B and GPT-4o is real but narrowing — for many everyday tasks, local models are already good enough, and the privacy and cost advantages make the setup worthwhile.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://rackmyself.com/tags/llm/">Llm</a></li>
+      <li><a href="https://rackmyself.com/tags/local-ai/">Local Ai</a></li>
+      <li><a href="https://rackmyself.com/tags/gpu/">Gpu</a></li>
+      <li><a href="https://rackmyself.com/tags/ollama/">Ollama</a></li>
+      <li><a href="https://rackmyself.com/tags/nvidia/">Nvidia</a></li>
+      <li><a href="https://rackmyself.com/tags/home-server/">Home Server</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://rackmyself.com/posts/docker-compose-beginners/">
+    <span class="title">« Prev</span>
+    <span>Docker Compose for Beginners: Run Any App in Minutes</span>
+  </a>
+  <a class="next" href="https://rackmyself.com/posts/run-ollama-home-server/">
+    <span class="title">Next »</span>
+    <span>How to Run Ollama on a Home Server (Local AI Without the Cloud)</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://rackmyself.com/">Rack Myself</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

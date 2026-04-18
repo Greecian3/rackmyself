@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Hardware on Rack Myself</title>
+    <link>https://rackmyself.com/tags/hardware/</link>
+    <description>Recent content in Hardware on Rack Myself</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 18 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://rackmyself.com/tags/hardware/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Best Mini PCs for a Homelab in 2026 (Under $300)</title>
+      <link>https://rackmyself.com/posts/best-mini-pcs-homelab-2026/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/posts/best-mini-pcs-homelab-2026/</guid>
+      <description>The best mini PCs for running a homelab on a budget. We cover top picks under $300 for Docker, Proxmox, NAS, and home server workloads in 2026.</description>
+    </item>
+    <item>
+      <title>Best NAS Drives for a Home Server in 2026</title>
+      <link>https://rackmyself.com/posts/best-nas-drives-2026/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/posts/best-nas-drives-2026/</guid>
+      <description>The best NAS hard drives for a home server or DIY NAS build in 2026. We compare WD Red, Seagate IronWolf, and CMR vs SMR — what actually matters.</description>
+    </item>
+    <item>
+      <title>The Beginner Homelab: What to Buy First and Why</title>
+      <link>https://rackmyself.com/posts/beginner-homelab-what-to-buy/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/posts/beginner-homelab-what-to-buy/</guid>
+      <description>Your first homelab doesn&amp;#39;t need to be expensive or complicated. Here&amp;#39;s exactly what to buy first, what to skip, and how to start running real services today.</description>
+    </item>
+  </channel>
+</rss>

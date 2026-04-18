@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Open Webui on Rack Myself</title>
+    <link>https://rackmyself.com/tags/open-webui/</link>
+    <description>Recent content in Open Webui on Rack Myself</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 18 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://rackmyself.com/tags/open-webui/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Self-Host Open WebUI and Access It From Anywhere</title>
+      <link>https://rackmyself.com/posts/self-host-open-webui/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://rackmyself.com/posts/self-host-open-webui/</guid>
+      <description>Set up Open WebUI on your home server with Docker, connect it to Ollama, and expose it securely via Cloudflare Tunnels for access anywhere.</description>
+    </item>
+  </channel>
+</rss>
