@@ -1,0 +1,10 @@
+theme = "congo"
+defaultContentLanguage = "en"
+enableRobotsTXT = true
+summaryLength = 40
+
+[pagination]
+  pagerSize = 10
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]

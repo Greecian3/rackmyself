@@ -1,0 +1,14 @@
+[[main]]
+  name = "Guides"
+  pageRef = "posts"
+  weight = 1
+
+[[main]]
+  name = "Search"
+  url = "/search/"
+  weight = 2
+
+[[main]]
+  name = "About"
+  pageRef = "about"
+  weight = 3

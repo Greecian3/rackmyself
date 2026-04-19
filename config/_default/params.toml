@@ -1,0 +1,40 @@
+colorScheme = "fire"
+defaultAppearance = "auto"
+autoSwitchAppearance = true
+enableSearch = true
+enableCodeCopy = true
+enableImageLazyLoading = true
+
+[header]
+  layout = "basic"
+  showTitle = true
+
+[footer]
+  showCopyright = false
+  showThemeAttribution = false
+  showScrollToTop = true
+
+[homepage]
+  layout = "page"
+  showRecent = true
+  recentLimit = 6
+
+[article]
+  showDate = true
+  showAuthor = false
+  showBreadcrumbs = true
+  showHeadingAnchors = true
+  showPagination = true
+  showReadingTime = true
+  showTableOfContents = true
+  showTaxonomies = true
+  showWordCount = false
+
+[list]
+  showBreadcrumbs = false
+  showSummary = true
+  groupByYear = false
+  paginationWidth = 2
+
+[taxonomy]
+  showTermCount = true

@@ -1,0 +1,14 @@
+languageCode = "en"
+languageName = "English"
+weight = 1
+title = "Rack Myself"
+
+[params]
+  dateFormat = "January 2, 2006"
+  mainSections = ["posts"]
+  description = "Practical homelab and self-hosting guides for real people"
+
+[params.author]
+  name = "Rack Myself"
+  headline = "Homelab guides that actually work."
+  bio = "Self-hosting, local AI, networking, and home server hardware — written for people who want to get things running, not just understand them in theory."
