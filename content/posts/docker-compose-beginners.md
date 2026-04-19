@@ -1,39 +1,31 @@
 ---
-title: "Docker Compose for Beginners: Run Any App in Minutes"
+title: "Docker Compose for Beginners: Run Any Self-Hosted App in Minutes"
 date: 2026-04-18
-description: "Learn Docker Compose from scratch. This beginner guide explains containers, docker-compose.yml, and how to run real self-hosted apps on your home server."
+description: "Learn Docker Compose from scratch in 2026. No version field needed anymore. This beginner guide explains containers, docker-compose.yml, and how to deploy real apps on your home server."
 tags: ["docker", "docker compose", "self-hosting", "containers", "beginners"]
 categories: ["guides"]
 showToc: true
 ---
 
-Docker Compose is the tool that makes self-hosting actually manageable. Instead of running long `docker run` commands with a dozen flags you'll forget tomorrow, Compose lets you define your entire app stack in a single readable file — then bring it up or down with one command.
+Docker Compose is the tool that makes self-hosting manageable. Instead of running long `docker run` commands with a dozen flags you'll forget in a week, Compose lets you define your entire application stack in a single readable YAML file — and bring everything up or down with one command.
 
-If you've been intimidated by Docker, this guide is for you. We'll go from zero to running a real application, and explain every piece of the puzzle along the way.
+This guide goes from zero to a real running application, explains every piece of the syntax, and covers the 2026 changes that catch people off guard (the `version:` field is gone — more on that shortly).
 
-## What Is Docker, Actually?
+## What Is Docker, and Why Does It Matter?
 
-A container is a self-contained package that includes an application and everything it needs to run — the runtime, libraries, config. It runs isolated from your host system, which means:
+A Docker container is a self-contained package: an application plus everything it needs to run — runtime, libraries, config. It's isolated from your host system, which means:
 
-- It won't conflict with other software on your server
-- It's easy to delete and start fresh
+- It doesn't conflict with other software on your server
+- You can delete it and start fresh without affecting anything else
 - The same container runs identically on any machine
 
-Think of it like a shipping container. The container itself is standardized; what's inside is whatever the shipper packed. Docker is the system that manages those containers.
+Think of containers like appliances. Your server is the kitchen. Each container is a standalone appliance that plugs in, does its job, and doesn't interfere with the others.
 
-## What Is Docker Compose?
+**Docker Compose** is the tool for managing multiple containers together. A Nextcloud instance needs the app server *and* a database. A media stack needs Jellyfin *and* a VPN container *and* maybe a reverse proxy. Compose describes the whole stack in one file and manages it as a unit.
 
-Docker Compose is a tool for defining and running multi-container applications. Instead of managing containers one at a time, you describe the whole stack — app, database, reverse proxy — in a YAML file called `docker-compose.yml`. Then you run one command and everything starts together.
+## Installing Docker in 2026
 
-It also handles:
-- Networks between containers
-- Persistent volumes for data
-- Environment variables
-- Restart policies
-
-## Installing Docker
-
-On Ubuntu/Debian (the most common home server OS):
+On Ubuntu or Debian (the most common home server OS), the official install script handles everything:
 
 ```bash
 curl -fsSL https://get.docker.com | sh
@@ -41,28 +33,46 @@ sudo usermod -aG docker $USER
 newgrp docker
 ```
 
-The last two commands let your current user run Docker without `sudo`. Verify the install:
+The second command lets your user run Docker without `sudo`. The third applies the change to your current session without logging out.
+
+Verify:
 
 ```bash
 docker --version
 docker compose version
 ```
 
-Docker Compose is now bundled with Docker (as `docker compose`, not the old `docker-compose` command). If you see version numbers, you're good.
+You should see Docker 27+ and Docker Compose 2.x. Note: the modern command is `docker compose` (with a space) — not the legacy `docker-compose` (with a hyphen). The hyphen version is deprecated. If you find older guides using `docker-compose`, mentally swap it for `docker compose`.
+
+## The 2026 Change You Need to Know
+
+Older Docker Compose files started with a `version:` field:
+
+```yaml
+version: '3.8'   # ← This is obsolete. Don't write it.
+services:
+  ...
+```
+
+As of 2026, the `version` field is completely obsolete and ignored. Docker Compose now follows the open Compose Specification, which merged the old 2.x and 3.x formats. Just omit it. Modern Compose files look like this:
+
+```yaml
+services:
+  my-app:
+    image: some/image
+    ...
+```
+
+Clean, no version needed. If you see tutorials still writing `version: '3'`, they're out of date.
 
 ## Your First docker-compose.yml
 
-Let's deploy something real: Uptime Kuma, a self-hosted uptime monitoring tool with a clean UI.
+Let's deploy something genuinely useful: **Uptime Kuma**, a self-hosted status monitoring tool with a polished UI that shows you when your services go down.
 
-Create a directory for it:
-
-```bash
-mkdir ~/uptime-kuma && cd ~/uptime-kuma
-```
-
-Create the compose file:
+Create a directory and a Compose file:
 
 ```bash
+mkdir ~/docker/uptime-kuma && cd ~/docker/uptime-kuma
 nano docker-compose.yml
 ```
 
@@ -86,194 +96,271 @@ Start it:
 docker compose up -d
 ```
 
-Visit `http://your-server-ip:3001` and you'll see the Uptime Kuma setup page. That's it.
+Visit `http://your-server-ip:3001` and you'll see the Uptime Kuma setup page. That's it — a real monitoring app running in under two minutes.
 
-## Breaking Down the Compose File
+## Reading the Compose File Line by Line
 
-Let's read through what each line means:
+Let's break down every line of that file:
 
 ```yaml
 services:
 ```
-Everything under `services` is a container you want to run. You can have one or twenty.
+Everything under `services` is a container. You can have one or twenty. Each service gets its own section.
 
 ```yaml
   uptime-kuma:
 ```
-This is the name you're giving the service. It's also the hostname other containers on the same network can use to reach this one.
+The name of this service. Also the hostname other containers on the same network use to reach it — important when containers talk to each other.
 
 ```yaml
     image: louislam/uptime-kuma:1
 ```
-The Docker image to use. `louislam/uptime-kuma` is the image name (from Docker Hub), and `1` is the tag (version). Using `latest` is fine for experimentation but pinning to a version is better for stability.
+The Docker image to use. `louislam/uptime-kuma` is pulled from Docker Hub. `:1` is the version tag. Always pin to a specific version (or at least a major version like `:1`) rather than `:latest` — it prevents surprise breakage when the developer releases an incompatible update.
+
+```yaml
+    container_name: uptime-kuma
+```
+The name of the running container. Optional, but makes `docker logs uptime-kuma` and `docker exec -it uptime-kuma bash` much easier to type.
 
 ```yaml
     volumes:
       - ./data:/app/data
 ```
-This maps a directory on your host (`./data`, relative to where the compose file lives) to a path inside the container (`/app/data`). This is how data persists — if you delete and recreate the container, the data is still there on disk.
+Maps a directory on your host (`./data`, relative to the Compose file) to a path inside the container (`/app/data`). This is how data persists. Without this, deleting the container deletes all your data. With it, the data lives on your host disk — recreate the container anytime and your data is still there.
 
 ```yaml
     ports:
       - "3001:3001"
 ```
-Maps host port 3001 to container port 3001. Format is `host:container`. You can change the host port to anything — `"8080:3001"` would expose it on port 8080 locally.
+Maps host port 3001 to container port 3001. Format: `"HOST:CONTAINER"`. Change the host port to anything — `"8080:3001"` exposes the app on port 8080 on your machine. The container port is fixed by the application; the host port is yours to choose.
 
 ```yaml
     restart: unless-stopped
 ```
-The container restarts automatically if it crashes, or when your server reboots — unless you explicitly stop it yourself.
+The container restarts automatically after a crash or after your server reboots — unless you explicitly run `docker compose down`. This is what makes self-hosted apps stay up without babysitting.
 
-## A Real Multi-Container Example
+## A Real Multi-Container Example: Nextcloud
 
-Most real apps need a database. Here's how that works with Nextcloud:
+Most serious apps need a database alongside the app itself. Here's how Compose handles that:
 
 ```yaml
 services:
   nextcloud:
-    image: nextcloud:latest
+    image: nextcloud:29
     container_name: nextcloud
     ports:
       - "8080:80"
     volumes:
-      - ./nextcloud_data:/var/www/html
+      - ./data:/var/www/html
     environment:
       - MYSQL_HOST=db
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD=changeme
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     depends_on:
       - db
     restart: unless-stopped
 
   db:
-    image: mariadb:10.11
+    image: mariadb:11
     container_name: nextcloud_db
     volumes:
       - ./db_data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=changeme_root
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD=changeme
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     restart: unless-stopped
 ```
 
-Two things to notice here:
+Two things to understand here:
 
-1. The `MYSQL_HOST=db` environment variable in the Nextcloud container uses `db` as the hostname — that's the name of the other service. Docker Compose automatically creates a network between services in the same file, so they can reach each other by service name.
+**Container networking:** `MYSQL_HOST=db` works because Docker Compose automatically creates a private network for all services in the same file. Services can reach each other using their service name as a hostname. The Nextcloud container connects to the database at hostname `db` — no IP addresses needed, no manual network configuration.
 
-2. `depends_on: - db` tells Compose to start the database before Nextcloud. It doesn't wait for the database to be *ready*, just for the container to exist — for most apps this is fine.
+**`depends_on`:** Tells Compose to start the `db` service before `nextcloud`. It doesn't wait for the database to be *ready* — just for the container to exist. For most setups this is fine; the app retries its database connection on startup.
 
-## Essential Docker Compose Commands
+## Using .env Files for Passwords
+
+Never hardcode passwords in your Compose file. Use an `.env` file instead:
+
+Create `.env` in the same directory as your `docker-compose.yml`:
+
+```
+MYSQL_PASSWORD=use_a_real_password_here
+MYSQL_ROOT_PASSWORD=use_a_different_real_password_here
+```
+
+Reference them in the Compose file with `${VARIABLE_NAME}` — as shown in the Nextcloud example above. Compose automatically reads `.env` from the current directory.
+
+Add `.env` to your `.gitignore` if you use git:
 
 ```bash
-# Start everything in the background
+echo ".env" >> .gitignore
+```
+
+This prevents you from accidentally committing passwords to a GitHub repo — a common and embarrassing mistake.
+
+## The Commands You'll Use Every Day
+
+```bash
+# Start all services in the background
 docker compose up -d
 
-# See running containers and their status
+# See what's running and their status
 docker compose ps
 
-# View logs (follow mode)
+# View logs for all services (follow mode)
 docker compose logs -f
 
-# View logs for one service
+# View logs for one service only
 docker compose logs -f nextcloud
 
-# Stop everything (containers stay, data stays)
+# Stop everything (containers stop, data stays)
 docker compose down
-
-# Stop and delete volumes (data gone — careful!)
-docker compose down -v
 
 # Pull newer image versions
 docker compose pull
 
-# Restart a single service
+# Restart one service
 docker compose restart nextcloud
 
-# Run a command inside a running container
+# Open a shell inside a running container
 docker compose exec nextcloud bash
+
+# Validate your Compose file before running
+docker compose config
 ```
 
-The `-d` flag means "detached" — runs in the background. Without it, logs stream to your terminal until you hit Ctrl+C.
+The last one — `docker compose config` — is new and useful. It validates your YAML and resolves all variables. Run it before `up` to catch typos and misconfigured environment variables before they cause a failed startup.
 
-## Where to Keep Your Compose Files
+## How to Organize Your Files
 
-A common pattern that keeps things organized:
+A clean directory structure makes managing multiple apps straightforward:
 
 ```
 ~/docker/
   uptime-kuma/
     docker-compose.yml
+    .env
     data/
   nextcloud/
     docker-compose.yml
-    nextcloud_data/
+    .env
+    data/
     db_data/
-  pihole/
+  vaultwarden/
     docker-compose.yml
-    pihole_data/
-    dnsmasq_data/
+    .env
+    data/
+  jellyfin/
+    docker-compose.yml
+    .env
+    config/
+    cache/
 ```
 
-Each app gets its own directory with its own compose file. Running `docker compose up -d` in any of those directories starts just that app. Clean and easy to manage.
-
-## Using .env Files for Secrets
-
-Hardcoding passwords in your compose file is a bad habit. Use an `.env` file instead:
-
-Create `.env` in the same directory as your compose file:
-
-```
-MYSQL_PASSWORD=my_actual_password
-MYSQL_ROOT_PASSWORD=my_root_password
-```
-
-Reference them in the compose file with `${VARIABLE_NAME}`:
-
-```yaml
-environment:
-  - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-  - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-```
-
-Docker Compose automatically reads `.env` from the current directory. Add `.env` to your `.gitignore` so you don't accidentally commit passwords.
+Each app gets its own directory with its own `docker-compose.yml`. Running `docker compose up -d` inside any directory starts just that app. `docker compose down` stops just that app. Clean isolation, easy to manage.
 
 ## Updating Containers
 
-When a new version of an app drops:
+When a new version of an app releases:
 
 ```bash
 cd ~/docker/uptime-kuma
-docker compose pull
-docker compose up -d
+docker compose pull          # download the new image
+docker compose up -d         # recreate the container with the new image
 ```
 
-Compose will detect the new image, stop the old container, and start a fresh one with the same volumes. Your data persists.
+Compose detects that the image changed, stops the old container, and starts a new one. Your volume data persists through the update — that's the whole point of using volumes.
 
-## Useful Hardware for Docker Hosting
+## A Practical Starter Stack
 
-Any mini PC or home server works, but some suggestions:
+If you're just getting started and want real useful apps running fast, here's a solid starting stack:
 
-- [Beelink EQ12 Mini PC (Intel N100)](https://www.amazon.com/s?k=Beelink+EQ12&tag=YOURTAG-20) — quiet, low power, handles dozens of containers
-- [Samsung 870 EVO 1TB SSD](https://www.amazon.com/dp/B08QBJ2YMG?tag=YOURTAG-20) — fast reliable storage for container volumes
-- [TP-Link 8-Port Gigabit Switch](https://www.amazon.com/dp/B00A121WN6?tag=YOURTAG-20) — if you're wiring multiple devices
+**AdGuard Home** — network-wide ad blocking
 
-## Common Mistakes
+```yaml
+services:
+  adguardhome:
+    image: adguard/adguardhome:latest
+    container_name: adguardhome
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+      - "3000:3000/tcp"
+    volumes:
+      - ./work:/opt/adguardhome/work
+      - ./conf:/opt/adguardhome/conf
+    restart: unless-stopped
+```
 
-**Using latest tags in production:** Fine for learning, annoying in practice when an update breaks something and you don't know what changed. Pin versions.
+**Vaultwarden** — self-hosted password manager (Bitwarden-compatible)
 
-**Not using volumes:** If you don't map a volume for persistent data, it lives inside the container. When the container goes away, so does your data.
+```yaml
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    ports:
+      - "8080:80"
+    volumes:
+      - ./data:/data
+    environment:
+      - SIGNUPS_ALLOWED=false
+    restart: unless-stopped
+```
 
-**Port conflicts:** Two services can't use the same host port. If something won't start, check if the port is in use: `ss -tulpn | grep :8080`.
+**Portainer** — web UI for managing all your Docker containers
 
-**Forgetting -d:** Running `docker compose up` without `-d` ties the process to your terminal. Always use `-d` for background operation.
+```yaml
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data:/data
+    restart: unless-stopped
+```
 
-## What's Next
+Deploy them in order. Within 30 minutes you have ad blocking, a password manager, and a Docker management UI — all self-hosted, all free.
 
-Once you're comfortable with Compose basics, the logical next step is a reverse proxy. Instead of accessing apps on weird port numbers (`192.168.1.100:3001`), a reverse proxy like Nginx Proxy Manager lets you use clean URLs (`uptime.home`) and handles HTTPS automatically.
+## Hardware for Running Docker
 
-After that, Cloudflare Tunnels let you expose specific apps to the internet securely — without opening ports on your router. We have guides on both.
+Any Linux-capable mini PC or server works. The practical minimum:
 
-Docker Compose is the foundation. Once you understand it, deploying new self-hosted apps takes minutes instead of hours.
+- **CPU:** 4 cores (Intel N100 or better)
+- **RAM:** 16 GB (32 GB if running many containers or VMs)
+- **Storage:** 500 GB NVMe for the OS and containers; add a second drive for data
+
+Specific picks:
+- [Beelink EQ12 (Intel N100)](https://www.amazon.com/s?k=Beelink+EQ12&tag=YOURTAG-20) — ~$165, handles 20+ containers, 6W idle
+- [Samsung 870 EVO 2TB SSD](https://www.amazon.com/dp/B08QBJ2YMG?tag=YOURTAG-20) — reliable bulk storage for container volumes
+- [APC BE600M1 UPS](https://www.amazon.com/dp/B01FWYEOLY?tag=YOURTAG-20) — protect your server from power blips
+
+## Common Mistakes to Avoid
+
+**Using `:latest` image tags:** Convenient but risky. A developer can push a breaking change to `latest` and your next `docker compose pull` silently breaks your stack. Pin to a specific version like `:29` or `:1.5.2`.
+
+**Not using volumes for persistent data:** If the container stores data internally and you don't map a volume, deleting or recreating the container means data loss. Always map a volume for anything you care about.
+
+**Port conflicts:** Two services can't use the same host port. If something fails to start, check:
+
+```bash
+ss -tulpn | grep :8080
+```
+
+**Running `docker compose up` without `-d`:** Without detached mode, the process ties to your terminal and stops when you disconnect. Always use `-d` for services you want running persistently.
+
+**Missing `.env` file:** If your Compose file references `${SOME_VARIABLE}` and the `.env` file doesn't exist or the variable isn't set, Docker Compose substitutes an empty string — which often causes subtle, confusing failures. Run `docker compose config` to catch this before it bites you.
+
+## What Comes Next
+
+Once you're comfortable with Docker Compose basics, the next step is a reverse proxy. Instead of accessing apps on `192.168.1.10:3001`, `192.168.1.10:8080`, and `192.168.1.10:9000`, a reverse proxy like Caddy or Nginx Proxy Manager lets you use clean URLs (`uptime.home`, `vault.home`) and handles HTTPS automatically.
+
+After that, Cloudflare Tunnels let you expose specific apps to the internet securely — no open ports, no exposed home IP. Both are covered in other guides on this site.
+
+Docker Compose is the foundation that everything else builds on. Once you understand it, deploying a new self-hosted app is a 5-minute job instead of an afternoon of Googling.
