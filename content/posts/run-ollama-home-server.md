@@ -42,7 +42,7 @@ GPU inference for a 7–8B model hits 60–120+ tokens per second — fast enoug
 - 12 GB VRAM: Runs Llama 4 Scout 17B at 4-bit — the current sweet spot
 - 24 GB VRAM: Runs DeepSeek R1 32B, opens up serious capability
 
-[NVIDIA RTX 4060 Ti 16GB on Amazon](https://www.amazon.com/dp/B0CCG5S6LD?tag=YOURTAG-20) — best value GPU for local AI at ~$450 new
+[NVIDIA RTX 4060 Ti 16GB on Amazon](https://www.amazon.com/dp/B0CBK7H19M?tag=YOURTAG-20) — best value GPU for local AI at ~$450 new
 
 ## Installing Ollama
 

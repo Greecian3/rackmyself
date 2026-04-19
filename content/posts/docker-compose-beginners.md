@@ -337,7 +337,7 @@ Any Linux-capable mini PC or server works. The practical minimum:
 - **Storage:** 500 GB NVMe for the OS and containers; add a second drive for data
 
 Specific picks:
-- [Beelink EQ12 (Intel N100)](https://www.amazon.com/dp/B0C1G2K8ZJ?tag=YOURTAG-20) — ~$165, handles 20+ containers, 6W idle
+- [Beelink EQ12 (Intel N100)](https://www.amazon.com/s?k=Beelink+EQ12+N100+16GB+dual+2.5G&tag=YOURTAG-20) — ~$165, handles 20+ containers, 6W idle
 - [Samsung 870 EVO 2TB SSD](https://www.amazon.com/dp/B08QB93S6R?tag=YOURTAG-20) — reliable bulk storage for container volumes
 - [APC BE600M1 UPS](https://www.amazon.com/dp/B01FWAZEIU?tag=YOURTAG-20) — protect your server from power blips
 

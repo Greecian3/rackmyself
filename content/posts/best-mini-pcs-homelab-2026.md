@@ -48,7 +48,7 @@ The Beelink EQ12 is the most recommended mini PC in homelab communities right no
 - Power draw: ~6–8W idle, ~18W load
 - Price: ~$165–185
 
-[Beelink EQ12 on Amazon](https://www.amazon.com/dp/B0C1G2K8ZJ?tag=YOURTAG-20)
+[Beelink EQ12 on Amazon](https://www.amazon.com/s?k=Beelink+EQ12+N100+16GB+dual+2.5G&tag=YOURTAG-20)
 
 The dual 2.5 GbE ports stand out. At this price point, getting two 2.5G ports means you can run it as a software router (one port WAN, one port LAN) or have fast connections to both your NAS and your main switch simultaneously. The 2.5" SATA bay means you can add a 2 TB drive for local media without a separate enclosure.
 
@@ -67,7 +67,7 @@ If you know you want to run Proxmox with actual virtual machines — not just LX
 - Power draw: ~12W idle, ~30W load
 - Price: ~$250–280
 
-[Beelink EQ12 Pro on Amazon](https://www.amazon.com/dp/B0CCXZMZWL?tag=YOURTAG-20)
+[Beelink EQ12 Pro on Amazon](https://www.amazon.com/s?k=Beelink+EQ12+Pro+N305+16GB&tag=YOURTAG-20)
 
 The jump from 4 to 8 cores is noticeable when you're running three VMs simultaneously or a heavy Proxmox cluster. The power draw is higher, but still reasonable for always-on use.
 
@@ -84,7 +84,7 @@ The UM773 Lite brings real laptop-class performance in a palm-sized box. The Ryz
 - Power draw: ~18–22W idle, ~55W load
 - Price: ~$280–310
 
-[Minisforum UM773 Lite on Amazon](https://www.amazon.com/dp/B0BXWHGFH1?tag=YOURTAG-20)
+[Minisforum UM773 Lite on Amazon](https://www.amazon.com/dp/B0BYDHVFRG?tag=YOURTAG-20)
 
 The Radeon 680M is the reason to consider this over an Intel N-series chip. If you want to run small local LLMs (3–7B models via Ollama), the 680M provides GPU acceleration that the N100 simply can't match. Jellyfin hardware transcoding via AMD's VCE encoder is also fast and low-CPU.
 
@@ -102,7 +102,7 @@ If your primary goal is a NAS with multiple drives, a purpose-built NAS board be
 - RAM: DDR4 SO-DIMM, up to 32 GB
 - Price: ~$130 for the board; add RAM, case, and drives
 
-[Topton N100 NAS Board on Amazon](https://www.amazon.com/s?k=Topton+N100+NAS+ITX+4+SATA&tag=YOURTAG-20)
+[Topton N100 NAS Board on Amazon](https://www.amazon.com/s?k=Topton+N100+NAS+ITX+4+SATA+2.5G&tag=YOURTAG-20)
 
 This is a DIY build — you need to supply a mini-ITX case, RAM, and drives. But the result is a proper NAS that runs TrueNAS with native SATA (not USB bridges), enough ports to matter, and a platform that's purpose-built for the job.
 
@@ -118,7 +118,7 @@ A slightly newer entry that competes directly with the EQ12 at a similar price. 
 - Networking: 2.5 GbE
 - Price: ~$155–175
 
-[GMKtec G3 Plus on Amazon](https://www.amazon.com/dp/B0DMSRLBJH?tag=YOURTAG-20)
+[GMKtec G3 Plus on Amazon](https://www.amazon.com/s?k=GMKtec+G3+Plus+N150+16GB&tag=YOURTAG-20)
 
 Functionally similar to the EQ12 for most workloads. If you find it cheaper or prefer the form factor, it's a solid choice.
 
