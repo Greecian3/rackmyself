@@ -1,0 +1,105 @@
+/* ── Typography ── */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.post-content h2 {
+  margin-top: 2.2rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.post-content h3 {
+  margin-top: 1.8rem;
+}
+
+/* ── Color accent ── */
+:root {
+  --accent: #e85d26;
+}
+
+.dark {
+  --accent: #f07340;
+}
+
+a:not(.post-title a):not(.logo):not(.menu-link) {
+  color: var(--accent);
+}
+
+a:not(.post-title a):not(.logo):not(.menu-link):hover {
+  text-decoration: underline;
+}
+
+/* ── Home info box ── */
+.home-info-container {
+  border-left: 4px solid var(--accent);
+  padding-left: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+/* ── Code blocks ── */
+.post-content pre {
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.post-content code:not(pre code) {
+  background: var(--code-bg);
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  font-size: 0.88em;
+}
+
+/* ── Tables ── */
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+.post-content th {
+  background: var(--accent);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  text-align: left;
+}
+
+.post-content td {
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-content tr:nth-child(even) td {
+  background: var(--entry);
+}
+
+/* ── Post entry cards ── */
+.post-entry {
+  border-radius: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.post-entry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+/* ── Reading time / meta ── */
+.post-meta {
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+/* ── Horizontal rule ── */
+.post-content hr {
+  border: none;
+  border-top: 2px solid var(--border);
+  margin: 2rem 0;
+}
