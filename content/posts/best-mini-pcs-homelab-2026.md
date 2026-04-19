@@ -151,13 +151,15 @@ This is a DIY build — you need to supply a mini-ITX case, RAM, and drives. The
 | Beelink EQ12 Pro | N305 | 8C | 16GB DDR5 | ~15W | ~$265 |
 | Minisforum UM773 Lite | Ryzen 7 7735HS | 8C/16T | 32GB DDR5 | ~20W | ~$295 |
 
-## Upgrading RAM: Always Check Before You Buy
+## Upgrading RAM: Check Prices Before You Commit
 
-Most mini PCs have one SO-DIMM slot populated and one open, or two open slots. Going from 16 GB to 32 GB is typically a $35–45 upgrade and meaningfully improves Proxmox VM density.
+Most mini PCs have one SO-DIMM slot populated and one open, or two open slots. Going from 16 GB to 32 GB meaningfully improves Proxmox VM density and heavy Docker stacks.
 
-Check before buying: some cheaper models have soldered RAM with no upgrade path.
+**Important:** DDR5 SO-DIMM prices are significantly elevated in 2026 due to ongoing DRAM shortages. A 32 GB DDR5 SO-DIMM kit (2× 16 GB) is currently running **$300–400** on Amazon — far more than a year ago. Factor this into your total budget before buying a mini PC with the intention of upgrading RAM.
 
-DDR5 SO-DIMM 32 GB (2× 16 GB): ~$40–50 on Amazon.
+In practical terms: if 16 GB is enough for your use case, just buy the 16 GB model and don't upgrade. If you know you need 32 GB, check current RAM prices before committing to a mini PC platform, and consider whether a model that ships with 32 GB preinstalled is actually cheaper overall.
+
+Check before buying: some cheaper models have soldered RAM with no upgrade path at all.
 
 ## Accessories Worth Having
 
